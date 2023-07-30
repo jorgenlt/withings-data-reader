@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+}
+
+#root {
+  margin: 0;
+  padding: 50px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+}
+
+.table {
+
+}
+
+.upload {
+
+}
+
+td, th {
+  border: 1px solid gray;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}

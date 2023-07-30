@@ -1,0 +1,34 @@
+type,date,value
+"Quality score","2023-07-30 14:14:33",42
+"Quality score","2023-07-30 08:43:54",40
+"Quality score","2023-07-30 08:43:15",-4
+"Quality score","2023-07-29 17:28:00",43
+"Quality score","2023-07-29 17:27:22",46
+"Quality score","2023-07-29 17:26:36",65
+"Quality score","2023-07-29 17:25:56",-4
+"Quality score","2023-07-29 14:03:54",59
+"Quality score","2023-07-29 01:05:08",53
+"HR PNN 50","2023-07-28 06:27:47",28
+"Atrial fibrillation result","2023-07-28 06:27:47",0
+"QRS interval duration","2023-07-28 06:27:47",86
+"PR interval duration","2023-07-28 06:27:47",166
+"QT interval duration","2023-07-28 06:27:47",380
+"Corrected QT interval duration","2023-07-28 06:27:47",367
+"HR SD NN","2023-07-28 06:27:47",70
+"HR RMS SD","2023-07-28 06:27:47",42
+"Quality score","2023-07-28 06:25:33",56
+"Atrial fibrillation result from PPG","2023-07-27 19:40:38",1
+"Activity class","2023-07-27 07:06:51",70
+"Quality score","2023-07-27 06:43:51",-3
+"Atrial fibrillation result from PPG","2023-07-26 23:10:38",1
+"HR PNN 50","2023-07-26 19:56:49",0
+"Atrial fibrillation result","2023-07-26 19:56:49",0
+"QRS interval duration","2023-07-26 19:56:49",73
+"PR interval duration","2023-07-26 19:56:49",143
+"QT interval duration","2023-07-26 19:56:49",303
+"Corrected QT interval duration","2023-07-26 19:56:49",371
+"HR SD NN","2023-07-26 19:56:49",16
+"HR RMS SD","2023-07-26 19:56:49",10
+"Quality score","2023-07-26 19:56:05",53
+"Quality score","2023-07-26 19:55:12",65
+"Activity class","2023-07-26 19:52:38",50
