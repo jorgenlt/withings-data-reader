@@ -13,6 +13,11 @@ body {
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
+  overflow-y: scroll;
+  max-height: 200px;
+  border: 1px solid $black;
+  width: fit-content;
+  display:block;
 }
 
 .table {
@@ -23,12 +28,25 @@ table {
 
 }
 
+.chart-wrapper {
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  // width: 800px;
+  overflow-x: scroll;
+
+  canvas {
+    // width: max-content !important;
+  }
+}
+
 td, th {
-  border: 1px solid gray;
+  border: 1px solid $gray;
   text-align: left;
   padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: $light-gray;
 }
