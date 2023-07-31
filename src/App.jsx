@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import Papa from 'papaparse';
 import format from 'date-fns/format';
+import { useSelector, useDispatch } from 'react-redux'
+import { updateSpo2Auto } from './features/dataReader/dataReaderSlice'
 
 function App() {
-  const [spo2Data, setspo2Data] = useState([]);
+  const { spo2Auto } = useSelector(state => state.dataReader);
+
+  const dispatch = useDispatch();
 
   const handleFileUpload = e => {
     const file = e.target.files[0];
@@ -32,7 +36,7 @@ function App() {
         });
         
         // Updating the data state with the sortedData
-        setspo2Data(sortedData);
+        dispatch(updateSpo2Auto(sortedData))
       }
     });
   }
@@ -53,15 +57,19 @@ function App() {
           </thead>
           <tbody>
             {
-              spo2Data.map(record => {
-                return (
-                  <tr key={record.start}>
-                    <td>{record.start}</td>
-                    <td>{`${record.duration} s`}</td>
-                    <td>{`${record.value} %`}</td>
-                  </tr>
-                )
-              })
+              spo2Auto.length > 0 ? (
+                spo2Auto.map(record => {
+                  return (
+                    <tr key={record.start}>
+                      <td>{record.start}</td>
+                      <td>{`${record.duration} s`}</td>
+                      <td>{`${record.value} %`}</td>
+                    </tr>
+                  )
+                })
+              ) : (
+                console.log('No spO2 data uploaded.')
+              )
             }
           </tbody>
         </table>
