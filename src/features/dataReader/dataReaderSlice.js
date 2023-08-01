@@ -36,7 +36,7 @@ export const dataReader = createSlice({
   name: 'dataReader',
   initialState,
   reducers: {
-    filterSp02: (state, action) => {
+    filterSpo2: (state, action) => {
       state.filteredSpo2Auto = filterByDate(state.spo2Auto, action.payload)
     }
   },
@@ -53,22 +53,23 @@ export const dataReader = createSlice({
 
         // Creating an array of objects
         const data = action.payload.map(row => {
-          const start = row[0] ? format(new Date(row[0]), 'MMM dd yyyy, HH:mm') : '';
-          const duration = row[1] ? parseInt(row[1].replace(/[[\]]/g, '')) : '';
+          const start = row[0] ? format(new Date(row[0]), 'MMMM dd yyyy, h:mm aaa') : '';
+          const time = row[0] ? format(new Date(row[0]), 'h:mm aaa') : '';
           const value = row[2] ? parseInt(row[2].replace(/[[\]]/g, '')) : '';
 
           return {
             start,
-            duration,
+            time,
             value
           }
         });
 
         // Sort by date
         const sortedData = data.sort((a, b) => new Date(a.start) - new Date(b.start))
-        console.log(sortedData);
+        
         // Updating spo2Auto in state
         state.spo2Auto = sortedData;
+        state.filteredSpo2Auto = filterByDate(sortedData, new Date(sortedData[sortedData.length - 1].start))
       })
       .addCase(uploadFileThunk.rejected, state => {
         state.status = 'failed';
@@ -77,6 +78,6 @@ export const dataReader = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { filterSp02 } = dataReader.actions
+export const { filterSpo2 } = dataReader.actions
 
 export default dataReader.reducer
