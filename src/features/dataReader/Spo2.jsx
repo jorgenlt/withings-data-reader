@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from 'react-redux'
-import { uploadFileThunk, filterSpo2 } from './dataReaderSlice'
+import { useState, useEffect } from "react"
+import { useSelector } from 'react-redux'
+import { filterByDate } from '../../common/utils/queryFilters'
 import { 
   LineChart, 
   Line, 
@@ -10,29 +10,61 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import format from 'date-fns/format'
 
 const Spo2 = () => {
   const [filterDate, setFilterDate] = useState('');
+  const [spo2, setSpo2] = useState([]);
+  const [filteredSpo2, setFilteredSpo2] = useState([]);
+  const [showRawData, setShowRawData] = useState(false);
 
-  const { spo2Auto, filteredSpo2Auto } = useSelector(state => state.dataReader);
-
-  const dispatch = useDispatch();
-
-  const handleFileUpload = e => dispatch(uploadFileThunk(e.target.files[0]));
+  // Get data from Redux
+  const { rawSpo2AutoSpo2 } = useSelector(state => state.dataReader.files)
 
   const handleDateChange = date => {
     setFilterDate(new Date(date));
-    dispatch(filterSpo2(new Date(date)));
+    setFilteredSpo2(filterByDate(spo2, new Date(date)));
   };
 
+  // Populate sp02 state
+  useEffect(() => {
+    if (rawSpo2AutoSpo2) {
+      // Process raw data
+      let rawData = [...rawSpo2AutoSpo2];
+      
+      // Remove headers
+      rawData.shift();
+      
+      // Creating an array of objects
+      const data = rawData.map(row => {
+        const start = row[0] ? format(new Date(row[0]), 'MMMM dd yyyy, h:mm aaa') : '';
+        const time = row[0] ? format(new Date(row[0]), 'h:mm aaa') : '';
+        const value = row[2] ? parseInt(row[2].replace(/[[\]]/g, '')) : '';
+        
+        return {
+          start,
+          time,
+          value
+        }
+      });
+      
+      // Sort by date
+      const sortedData = data.sort((a, b) => new Date(a.start) - new Date(b.start))
+    
+      // Updating spo2 in state
+      setSpo2(sortedData);
+  
+      // Set filtered data to most recent date initially
+      setFilteredSpo2(filterByDate(sortedData, new Date(sortedData[sortedData.length - 1].start)));
+    }
+  }, [rawSpo2AutoSpo2]);
+  
   return (
     <>
       <h1>SpO2</h1>
-      <p>Look for filename: <code>raw_spo2_auto_spo2.csv</code></p>
       <div className='upload'>
-        <input type="file" onChange={handleFileUpload} />
         <DatePicker
           todayButton="Today"
           showPopperArrow={false}
@@ -41,24 +73,24 @@ const Spo2 = () => {
           onChange={handleDateChange} 
           placeholderText="Choose date"
         />
-        { filteredSpo2Auto.length > 0 &&
-          <h2>{filteredSpo2Auto[0].start.split(',')[0]}</h2>
+        { filteredSpo2.length > 0 &&
+          <h2>{filteredSpo2[0].start.split(',')[0]}</h2>
         }
       </div>
       {
-        spo2Auto.length > 0 && filteredSpo2Auto.length === 0 &&
+        spo2.length > 0 && filteredSpo2.length === 0 &&
         <div>
           <p>No data on chosen date.</p>
         </div>
       }
       {
-        filteredSpo2Auto.length > 0 &&
+        filteredSpo2.length > 0 &&
         <div className='chart-wrapper'>
           <ResponsiveContainer width={1000} aspect={2.5}>
             <LineChart 
               // width={800} 
               // height={400} 
-              data={filteredSpo2Auto}
+              data={filteredSpo2}
               margin={{ top: 0, right: 40, bottom: 0, left: 0 }} 
               style={{ fontFamily: 'sans-serif' }}
             >
@@ -93,29 +125,32 @@ const Spo2 = () => {
               />
             </LineChart>
           </ResponsiveContainer>
-          <div className='table'>
-            <h2>Raw data</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Time</th>
-                  <th>Oxygen Saturation</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  spo2Auto.map(record => {
-                    return (
-                      <tr key={record.start}>
-                        <td>{record.start}</td>
-                        <td>{`${record.value} %`}</td>
-                      </tr>
-                    )
-                  })
-                }
-              </tbody>
-            </table>
-          </div>
+          <button onClick={() => setShowRawData(prev=> !prev)}>Raw data</button>
+          {
+            showRawData &&
+            <div className='table'>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Oxygen Saturation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  { spo2 &&
+                    spo2.map(record => {
+                      return (
+                        <tr key={record.start}>
+                          <td>{record.start}</td>
+                          <td>{`${record.value} %`}</td>
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
         </div>
       }
     </>
