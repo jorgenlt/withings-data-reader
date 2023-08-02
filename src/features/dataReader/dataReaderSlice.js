@@ -6,6 +6,7 @@ const initialState = {
   value: 0,
   error: null,
   status: 'idle',
+  filterDate: null,
   files: {}
 }
 
@@ -54,7 +55,16 @@ export const uploadFilesThunk = createAsyncThunk(
 export const dataReader = createSlice({
   name: 'dataReader',
   initialState,
-  reducers: {},
+  reducers: {
+    deleteStoredData: state => {
+      state.files = {};
+      state.error = null;
+      state.status = 'idle';
+    },
+    updateFilterDate: (state, action) => {
+      state.filterDate = action.payload;
+    }
+  },
   extraReducers: builder => {
     builder
     // uploadFilesThunk handling
@@ -79,6 +89,6 @@ export const dataReader = createSlice({
 })
     
 // Action creators are generated for each case reducer function
-// export const { } = dataReader.actions
+export const { deleteStoredData, updateFilterDate } = dataReader.actions
 
 export default dataReader.reducer

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { filterByDate } from '../../common/utils/queryFilters'
 import { findMinMax } from '../../common/utils/findMinMax'
 import { 
@@ -14,26 +14,33 @@ import {
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import format from 'date-fns/format'
+import { v4 as uuidv4 } from 'uuid';
+import { updateFilterDate } from "./dataReaderSlice";
 
 const Spo2 = () => {
-  const [filterDate, setFilterDate] = useState('');
   const [spo2, setSpo2] = useState([]);
   const [filteredSpo2, setFilteredSpo2] = useState([]);
   const [minMaxSpo2, setMinMaxSpo2] = useState({});
   const [showRawData, setShowRawData] = useState(false);
 
   // Get data from Redux
-  const { rawSpo2AutoSpo2 } = useSelector(state => state.dataReader.files)
+  const { rawSpo2AutoSpo2 } = useSelector(state => state.dataReader.files);
+  const { filterDate } = useSelector(state => state.dataReader);
+
+  const dispatch = useDispatch();
 
   const handleDateChange = date => {
-    setFilterDate(new Date(date));
+    dispatch(updateFilterDate(new Date(date)))
+  };
 
-    const filteredSpo2Data = filterByDate(spo2, new Date(date));
+  // Update chart when date changes or when spo2 is populated
+  useEffect(() => {
+    const filteredSpo2Data = filterByDate(spo2, filterDate);
 
     setFilteredSpo2(filteredSpo2Data);
 
     setMinMaxSpo2(findMinMax(filteredSpo2Data));
-  };
+  }, [filterDate, spo2])
 
   // Populate sp02 state
   useEffect(() => {
@@ -53,7 +60,8 @@ const Spo2 = () => {
         return {
           start,
           time,
-          value
+          value,
+          id: uuidv4()
         }
       });
       
@@ -63,16 +71,11 @@ const Spo2 = () => {
       // Updating spo2 in state
       setSpo2(sortedData);
 
-      // Most recent data
-      const mostRecentData = filterByDate(sortedData, new Date(sortedData[sortedData.length - 1].start));
-  
-      // Set filtered data to most recent date initially
-      setFilteredSpo2(mostRecentData);
-
-      // Set min and max spo2
-      setMinMaxSpo2(findMinMax(mostRecentData));
+      // Set most recent date
+      dispatch(updateFilterDate(new Date(sortedData[sortedData.length - 1].start)))
     }
   }, [rawSpo2AutoSpo2]);
+  
   
   return (
     <>
@@ -156,7 +159,7 @@ const Spo2 = () => {
                   { spo2 &&
                     spo2.map(record => {
                       return (
-                        <tr key={record.start}>
+                        <tr key={record.id}>
                           <td>{record.start}</td>
                           <td>{`${record.value} %`}</td>
                         </tr>

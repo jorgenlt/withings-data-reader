@@ -11,12 +11,11 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import format from 'date-fns/format'
+import { v4 as uuidv4 } from 'uuid';
 
 const HeartRate = () => {
-  const [filterDate, setFilterDate] = useState('');
   const [hr, setHr] = useState([]);
   const [filteredHr, setFilteredHr] = useState([]);
   const [minMaxHr, setMinMaxHr] = useState({});
@@ -24,16 +23,16 @@ const HeartRate = () => {
 
   // Get data from Redux
   const { rawHrHr } = useSelector(state => state.dataReader.files)
+  const { filterDate } = useSelector(state => state.dataReader);
 
-  const handleDateChange = date => {
-    setFilterDate(new Date(date));
+  // Update chart when date changes or when hr is populated
+  useEffect(() => {
+    const filteredHrData = filterByDate(hr, filterDate);
 
-    const filteredHeartRate = filterByDate(hr, new Date(date));
+    setFilteredHr(filteredHrData);
 
-    setFilteredHr(filteredHeartRate);
-
-    setMinMaxHr(findMinMax(filteredHeartRate));
-  };
+    setMinMaxHr(findMinMax(filteredHrData));
+  }, [filterDate, hr])
 
   // Populate hr state
   useEffect(() => {
@@ -53,7 +52,8 @@ const HeartRate = () => {
         return {
           start,
           time,
-          value
+          value,
+          id: uuidv4()
         }
       });
       
@@ -78,14 +78,6 @@ const HeartRate = () => {
     <>
       <h1>Heart Rate</h1>
       <div className='upload'>
-        <DatePicker
-          todayButton="Today"
-          showPopperArrow={false}
-          showIcon
-          selected={filterDate}
-          onChange={handleDateChange} 
-          placeholderText="Choose date"
-        />
         { filteredHr.length > 0 &&
           <>
             <h2>{filteredHr[0].start.split(',')[0]}</h2>
@@ -156,7 +148,7 @@ const HeartRate = () => {
                   { hr &&
                     hr.map(record => {
                       return (
-                        <tr key={record.start}>
+                        <tr key={record.id}>
                           <td>{record.start}</td>
                           <td>{`${record.value} bpm`}</td>
                         </tr>
