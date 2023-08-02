@@ -15,31 +15,31 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import format from 'date-fns/format'
 
-const Spo2 = () => {
+const HeartRate = () => {
   const [filterDate, setFilterDate] = useState('');
-  const [spo2, setSpo2] = useState([]);
-  const [filteredSpo2, setFilteredSpo2] = useState([]);
-  const [minMaxSpo2, setMinMaxSpo2] = useState({});
+  const [hr, setHr] = useState([]);
+  const [filteredHr, setFilteredHr] = useState([]);
+  const [minMaxHr, setMinMaxHr] = useState({});
   const [showRawData, setShowRawData] = useState(false);
 
   // Get data from Redux
-  const { rawSpo2AutoSpo2 } = useSelector(state => state.dataReader.files)
+  const { rawHrHr } = useSelector(state => state.dataReader.files)
 
   const handleDateChange = date => {
     setFilterDate(new Date(date));
 
-    const filteredSpo2Data = filterByDate(spo2, new Date(date));
+    const filteredHeartRate = filterByDate(hr, new Date(date));
 
-    setFilteredSpo2(filteredSpo2Data);
+    setFilteredHr(filteredHeartRate);
 
-    setMinMaxSpo2(findMinMax(filteredSpo2Data));
+    setMinMaxHr(findMinMax(filteredHeartRate));
   };
 
-  // Populate sp02 state
+  // Populate hr state
   useEffect(() => {
-    if (rawSpo2AutoSpo2) {
+    if (rawHrHr) {
       // Process raw data
-      let rawData = [...rawSpo2AutoSpo2];
+      let rawData = [...rawHrHr];
       
       // Remove headers
       rawData.shift();
@@ -47,7 +47,7 @@ const Spo2 = () => {
       // Creating an array of objects
       const data = rawData.map(row => {
         const start = row[0] ? format(new Date(row[0]), 'MMMM dd yyyy, h:mm aaa') : '';
-        const time = row[0] ? format(new Date(row[0]), 'h:mm aaa') : '';
+        const time = row[0] ? format(new Date(row[0]), 'h:mm:ss aaa') : '';
         const value = row[2] ? parseInt(row[2].replace(/[[\]]/g, '')) : '';
         
         return {
@@ -60,23 +60,23 @@ const Spo2 = () => {
       // Sort by date
       const sortedData = data.sort((a, b) => new Date(a.start) - new Date(b.start))
     
-      // Updating spo2 in state
-      setSpo2(sortedData);
+      // Updating hr in state
+      setHr(sortedData);
 
       // Most recent data
       const mostRecentData = filterByDate(sortedData, new Date(sortedData[sortedData.length - 1].start));
   
       // Set filtered data to most recent date initially
-      setFilteredSpo2(mostRecentData);
+      setFilteredHr(mostRecentData);
 
-      // Set min and max spo2
-      setMinMaxSpo2(findMinMax(mostRecentData));
+      // Set min and max hr
+      setMinMaxHr(findMinMax(mostRecentData));
     }
-  }, [rawSpo2AutoSpo2]);
+  }, [rawHrHr]);
   
   return (
     <>
-      <h1>SpO2</h1>
+      <h1>Heart Rate</h1>
       <div className='upload'>
         <DatePicker
           todayButton="Today"
@@ -86,28 +86,28 @@ const Spo2 = () => {
           onChange={handleDateChange} 
           placeholderText="Choose date"
         />
-        { filteredSpo2.length > 0 &&
+        { filteredHr.length > 0 &&
           <>
-            <h2>{filteredSpo2[0].start.split(',')[0]}</h2>
-            <p>Min: {minMaxSpo2.min}, Max: {minMaxSpo2.max}</p>
+            <h2>{filteredHr[0].start.split(',')[0]}</h2>
+            <p>Min: {minMaxHr.min}, Max: {minMaxHr.max}</p>
           </>
         }
       </div>
       {
-        spo2.length > 0 && filteredSpo2.length === 0 &&
+        hr.length > 0 && filteredHr.length === 0 &&
         <div>
           <p>No data on chosen date.</p>
         </div>
       }
       {
-        filteredSpo2.length > 0 &&
+        filteredHr.length > 0 &&
         <div className='chart-wrapper'>
-          <ResponsiveContainer width={1000} aspect={2.5}>
+          <ResponsiveContainer width={filteredHr.length * 20} height={300} >
             <LineChart 
               // width={800} 
               // height={400} 
-              data={filteredSpo2}
-              margin={{ top: 0, right: 40, bottom: 0, left: 0 }} 
+              data={filteredHr}
+              margin={{ top: 20, right: 40, bottom: 20, left: 20 }} 
               style={{ fontFamily: 'sans-serif' }}
             >
               <Line 
@@ -127,10 +127,10 @@ const Spo2 = () => {
                 padding={{ left: 0 }}
               />
               <YAxis 
-                unit={'%'}
-                domain={[70, 105]}
+                unit={' bpm'}
+                domain={['dataMin', 'dataMax']}
                 interval='preserveEnd'
-                scale={'log'}
+                // scale={'log'}
                 tickMargin={10}
               />
               <Tooltip 
@@ -149,16 +149,16 @@ const Spo2 = () => {
                 <thead>
                   <tr>
                     <th>Time</th>
-                    <th>Oxygen Saturation</th>
+                    <th>Hear rate</th>
                   </tr>
                 </thead>
                 <tbody>
-                  { spo2 &&
-                    spo2.map(record => {
+                  { hr &&
+                    hr.map(record => {
                       return (
                         <tr key={record.start}>
                           <td>{record.start}</td>
-                          <td>{`${record.value} %`}</td>
+                          <td>{`${record.value} bpm`}</td>
                         </tr>
                       )
                     })
@@ -173,4 +173,4 @@ const Spo2 = () => {
   )
 }
 
-export default Spo2
+export default HeartRate
