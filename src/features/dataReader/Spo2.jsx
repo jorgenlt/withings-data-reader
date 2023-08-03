@@ -11,8 +11,6 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
 import format from 'date-fns/format'
 import { v4 as uuidv4 } from 'uuid';
 import { updateFilterDate } from "./dataReaderSlice";
@@ -28,10 +26,6 @@ const Spo2 = () => {
   const { filterDate } = useSelector(state => state.dataReader);
 
   const dispatch = useDispatch();
-
-  const handleDateChange = date => {
-    dispatch(updateFilterDate(new Date(date)))
-  };
 
   // Update chart when date changes or when spo2 is populated
   useEffect(() => {
@@ -81,14 +75,6 @@ const Spo2 = () => {
     <>
       <h1>SpO2</h1>
       <div className='upload'>
-        <DatePicker
-          todayButton="Today"
-          showPopperArrow={false}
-          showIcon
-          selected={filterDate}
-          onChange={handleDateChange} 
-          placeholderText="Choose date"
-        />
         { filteredSpo2.length > 0 &&
           <>
             <h2>{filteredSpo2[0].start.split(',')[0]}</h2>

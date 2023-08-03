@@ -1,53 +1,53 @@
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { 
+  updateFilterDate, 
+  deleteStoredData, 
+  uploadFilesThunk 
+} from "../features/dataReader/dataReaderSlice";
 import { CSSTransition } from 'react-transition-group'
 import { 
-  HiXMark, 
+  HiChevronDoubleLeft, 
   HiOutlineBars3,
 } from "react-icons/hi2";
+import DatePicker from "react-datepicker"
+// import "react-datepicker/dist/react-datepicker.css"
 
-const Nav = () => {
-  // const dispatch = useDispatch();
+const Nav = props => {
+  const { filterDate } = useSelector(state => state.dataReader);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
 
-  // Function to toggle the navigation menu
-  const toggleNav = () => {
-    setIsOpen(prev => !prev)
+  const handleDateChange = date => {
+    dispatch(updateFilterDate(new Date(date)))
+  };
+
+  const handleFileUpload = e => {
+    dispatch(uploadFilesThunk(e.target.files));
+  }
+
+  const handleDeleteData = () => {
+    if (confirm("Are you sure you want to delete all data?") == true) {
+      dispatch(deleteStoredData());
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
   }
 
   const nodeRef = useRef(null);
-
-  // Function to handle click outside of the nav 
-  // navigation menu to close it
-  // const clickOutside = e => {
-  //   if (e.target.className === "nav--mobile-overlay") {
-  //     toggleNav();
-  //   }
-  // };
-
-  // Add or remove 'overflow-hidden' class on the body 
-  // based on the state of the mobile navigation menu
-  // useEffect(() => {
-  //   const body = document.body;
-
-  //   if(isOpen) {
-  //     body.classList.add('overflow-hidden');
-  //   } else {
-  //     body.classList.remove('overflow-hidden');
-  //   }
-  // }, [isOpen]);
 
   return (
     <>
       <div 
         className="nav--open"
-        onClick={() => toggleNav()}
+        onClick={props.toggleNav}
       >
         <HiOutlineBars3 />
       </div>
         {/* open menu */}
         <CSSTransition
-          in={isOpen}
+          in={props.navIsOpen}
           nodeRef={nodeRef}
           timeout={200}
           classNames={'nav--transition'}
@@ -60,12 +60,30 @@ const Nav = () => {
             {/* close menu */}
             <div 
               className="nav--close" 
-              onClick={() => toggleNav()}
+              onClick={props.toggleNav}
             >
-              <HiXMark />
+              <HiChevronDoubleLeft />
             </div>
             {/* menu content */}
             <div className='nav--content'>
+              <DatePicker
+                dateFormat={'MMM d yyyy'}
+                todayButton="Today"
+                showPopperArrow={false}
+                showIcon
+                selected={filterDate}
+                onChange={handleDateChange} 
+                placeholderText="Choose date"
+              />
+              <input 
+                type="file" 
+                multiple="multiple" 
+                onChange={handleFileUpload} 
+                
+              />
+              <div>
+                <button onClick={handleDeleteData}>Delete all data</button>
+              </div>
               <ul>
                 <li>nav content</li>
               </ul>

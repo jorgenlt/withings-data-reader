@@ -1,11 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteStoredData, uploadFilesThunk } from './features/dataReader/dataReaderSlice'
+import { useSelector } from 'react-redux'
 import Spo2 from './features/dataReader/Spo2'
 import HeartRate from './features/dataReader/HeartRate'
 import Nav from './components/Nav'
+import { useState } from 'react'
 
 function App() {
-  const { user } = useSelector(state => state.dataReader.files)
+  const { user } = useSelector(state => state.dataReader.files);
+  const [navIsOpen, setNavIsOpen] = useState(true);
 
   let firstName;
   let lastName;
@@ -14,27 +15,20 @@ function App() {
     lastName = user[1][1];
   }
 
-  const dispatch = useDispatch();
-
-  const handleFileUpload = e => {
-    dispatch(uploadFilesThunk(e.target.files));
+  const toggleNav = () => {
+    setNavIsOpen(prev => !prev);
   }
-
-  const handleDeleteData = () => {
-    dispatch(deleteStoredData());
-    alert('All data deleted. Refresh page.');
-  }
-  
 
   return (
     <>
-      <Nav />
-      <div className='app-wrapper'>
+      <Nav 
+        toggleNav={toggleNav}
+        navIsOpen={navIsOpen}
+      />
+      <div 
+        className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
+      >
         <h1>User: {firstName} {lastName}</h1>
-        <input type="file" multiple="multiple" onChange={handleFileUpload} />
-        <div>
-          <button onClick={handleDeleteData}>Delete all data</button>
-        </div>
         <Spo2 />
         <HeartRate />
       </div>

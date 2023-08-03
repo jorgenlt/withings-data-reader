@@ -1,3 +1,7 @@
+html, body, #root {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
@@ -9,7 +13,29 @@ body {
 }
 
 .app-wrapper {
-  margin-left: 60px;
+  // margin-left: 60px;
+  transition: all 100ms linear;
+
+}
+
+button, input[type=file]::file-selector-button {
+  background-color: $white;
+  color: $blue;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 0px;
+  width: 120px;
+  transition: .3s;
+}
+
+button:hover, input[type=file]::file-selector-button:hover {
+  background-color: $blue;
+  box-shadow: 0 0 0 5px $blue-shadow;
+  color: $white;
+}
+
+input[type=file] {
+  padding: 5px 5px;
 }
 
 table {
