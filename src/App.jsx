@@ -1,7 +1,8 @@
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteStoredData, uploadFilesThunk } from './features/dataReader/dataReaderSlice'
 import Spo2 from './features/dataReader/Spo2'
 import HeartRate from './features/dataReader/HeartRate'
-import { deleteStoredData, uploadFilesThunk } from './features/dataReader/dataReaderSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import Nav from './components/Nav'
 
 function App() {
   const { user } = useSelector(state => state.dataReader.files)
@@ -27,13 +28,16 @@ function App() {
 
   return (
     <>
-      <h1>User: {firstName} {lastName}</h1>
-      <input type="file" multiple="multiple" onChange={handleFileUpload} />
-      <div>
-        <button onClick={handleDeleteData}>Delete all data</button>
+      <Nav />
+      <div className='app-wrapper'>
+        <h1>User: {firstName} {lastName}</h1>
+        <input type="file" multiple="multiple" onChange={handleFileUpload} />
+        <div>
+          <button onClick={handleDeleteData}>Delete all data</button>
+        </div>
+        <Spo2 />
+        <HeartRate />
       </div>
-      <Spo2 />
-      <HeartRate />
     </>
   )
 }

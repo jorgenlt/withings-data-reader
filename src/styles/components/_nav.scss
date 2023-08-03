@@ -1,0 +1,68 @@
+.nav {
+  // display: none;
+  // position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  background-color: $black;
+  color: $white;
+  // margin-right: 40px;
+  
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0;
+  }
+
+  li {
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.nav--open, .nav--close {
+  position: fixed;
+  z-index: 2;
+  top: 20px;
+  left: 20px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.nav--content {
+  position: sticky;
+  padding: 50px 20px 20px 20px;
+  top: 0;
+  width: 200px;
+}
+
+// CSSTransition
+.nav--transition-enter {
+  transform: translateX(-200px);
+}
+.nav--transition-enter-active {
+  transform: translateX(0);
+  transition: all 200ms linear;
+}
+.nav--transition-exit {
+  transform: translateX(0);
+}
+.nav--transition-exit-active {
+  transform: translateX(-200px);
+  transition: all 200ms linear;
+}
+
+// Responsivness
+// @media screen and (max-width: 900px) {
+//   .nav--mobile-open, .nav--mobile-close {
+//     display: flex;
+//   }
+
+//   .nav--mobile {
+//     display: flex;
+//     flex-direction: column;
+//   }
+// }
+
