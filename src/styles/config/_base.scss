@@ -18,7 +18,7 @@ body {
 
 }
 
-button, input[type=file]::file-selector-button {
+button {
   background-color: $white;
   color: $blue;
   border: none;
@@ -28,7 +28,7 @@ button, input[type=file]::file-selector-button {
   transition: .3s;
 }
 
-button:hover, input[type=file]::file-selector-button:hover {
+button:hover {
   background-color: $blue;
   box-shadow: 0 0 0 5px $blue-shadow;
   color: $white;

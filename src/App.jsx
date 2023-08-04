@@ -2,7 +2,9 @@ import { useSelector } from 'react-redux'
 import Spo2 from './features/dataReader/Spo2'
 import HeartRate from './features/dataReader/HeartRate'
 import Nav from './components/Nav'
+import Home from './components/Home'
 import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   const { user } = useSelector(state => state.dataReader.files);
@@ -20,19 +22,46 @@ function App() {
   }
 
   return (
-    <>
-      <Nav 
-        toggleNav={toggleNav}
-        navIsOpen={navIsOpen}
-      />
-      <div 
-        className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
-      >
-        <h1>User: {firstName} {lastName}</h1>
-        <Spo2 />
-        <HeartRate />
-      </div>
-    </>
+    <Router>
+      <>
+        <Nav 
+          toggleNav={toggleNav}
+          navIsOpen={navIsOpen}
+        />
+        <Routes>
+            <Route 
+              path="/" 
+              element={
+                <div 
+                  className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
+                >
+                  <Home />
+                </div>
+              } 
+            />
+            <Route 
+              path="/spo2" 
+              element={
+                <div 
+                  className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
+                >
+                  <Spo2 />
+                </div>
+              } 
+            />
+            <Route 
+              path="/heartrate" 
+              element={
+                <div 
+                  className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
+                >
+                  <HeartRate />
+                </div>
+              } 
+            />
+        </Routes>
+      </>
+  </Router>
   )
 }
 

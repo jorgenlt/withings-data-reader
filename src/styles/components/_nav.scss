@@ -1,6 +1,6 @@
 .nav {
   height: 100%;
-  width: 300px;
+  // width: 300px;
   z-index: 99;
   background-color: $black;
   color: $white;
@@ -10,14 +10,8 @@
   ul {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 5px;
     padding: 0;
-  }
-
-  li {
-    padding: 0;
-    display: flex;
-    align-items: center;
   }
 }
 
@@ -53,35 +47,90 @@
   }
 }
 
-.react-datepicker__view-calendar-icon input {
-  background-color: $white;
-  color: $blue;
-  border: none;
+.nav--element {
+  position: relative;
+  cursor: pointer;
+  height: 50px;
+  width:240px;
+  border-radius: 5px;
+  padding: 0px 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition-duration: 200ms;
+
+  &:hover {
+    background-color: $blue-shadow;
+  }
+
+  input {
+    cursor: pointer;
+    position: fixed;
+    opacity: 0;
+  }
+
+  input[type=file]::file-selector-button:hover {
+    cursor: pointer;
+  } 
+}
+
+.nav--element-chosen {
+  background-color: $blue-shadow;
+}
+
+.nav--icon {
+  height: 30px;
+  width: 30px;
   border-radius: 3px;
-  width: 85px;
-  margin-left: 5px;
-  cursor: pointer !important;
-
-  &:focus, &:hover {
-    box-shadow: 0 0 0 5px $blue-shadow;
-    background-color: $blue;
-    color: $white;
-    transition-duration: 200ms;
-
-  }
-
-  &:focus-visible {
-    outline: none;
-  }
+  background-color: $blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.react-datepicker__calendar-icon {
-  padding: 5px 10px 5px 10px !important;
+.nav--icon-text {
+
 }
 
-.react-datepicker-wrapper {
-  width: min-content;
+.nav--datepicker {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  z-index: 99;
 }
+
+
+
+// .react-datepicker__view-calendar-icon input {
+//   background-color: $white;
+//   color: $blue;
+//   border: none;
+//   border-radius: 3px;
+//   width: 85px;
+//   margin-left: 5px;
+//   cursor: pointer !important;
+
+//   &:focus, &:hover {
+//     box-shadow: 0 0 0 5px $blue-shadow;
+//     background-color: $blue;
+//     color: $white;
+//     transition-duration: 200ms;
+
+//   }
+
+//   &:focus-visible {
+//     outline: none;
+//   }
+// }
+
+// .react-datepicker__calendar-icon {
+//   padding: 5px 10px 5px 10px !important;
+// }
+
+// .react-datepicker-wrapper {
+//   width: min-content;
+// }
+
 // CSSTransition
 .nav--transition-enter {
   transform: translateX(-360px);
