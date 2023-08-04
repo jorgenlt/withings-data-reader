@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { 
   updateFilterDate, 
   deleteStoredData, 
-  uploadFilesThunk 
+  uploadFilesThunk,
+  toggleNavIsOpen 
 } from "../features/dataReader/dataReaderSlice"
 import { CSSTransition } from 'react-transition-group'
 import { 
@@ -19,14 +20,14 @@ import { SiOxygen } from "react-icons/si"
 import { GiNightSleep } from "react-icons/gi"
 import { FaInfo } from "react-icons/fa"
 import DatePicker from "react-datepicker"
-// import "react-datepicker/dist/react-datepicker.css"
+import "react-datepicker/dist/react-datepicker.css"
 
 import { useNavigate } from 'react-router-dom';
 
-const Nav = props => {
+const Nav = () => {
   const [dateIsOpen, setDateIsOpen] = useState(false);
 
-  const { filterDate } = useSelector(state => state.dataReader);
+  const { filterDate, navIsOpen } = useSelector(state => state.dataReader);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,13 +59,13 @@ const Nav = props => {
     <>
       <div 
         className="nav--open"
-        onClick={props.toggleNav}
+        onClick={() => dispatch(toggleNavIsOpen())}
       >
         <HiOutlineBars3 />
       </div>
         {/* open menu */}
         <CSSTransition
-          in={props.navIsOpen}
+          in={navIsOpen}
           nodeRef={nodeRef}
           timeout={200}
           classNames={'nav--transition'}
@@ -77,7 +78,7 @@ const Nav = props => {
             {/* close menu */}
             <div 
               className="nav--close" 
-              onClick={props.toggleNav}
+              onClick={() => dispatch(toggleNavIsOpen())}
             >
               <HiChevronDoubleLeft />
             </div>

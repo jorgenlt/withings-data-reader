@@ -7,6 +7,7 @@ const initialState = {
   error: null,
   status: 'idle',
   filterDate: null,
+  navIsOpen: true,
   files: {}
 }
 
@@ -63,6 +64,15 @@ export const dataReader = createSlice({
     },
     updateFilterDate: (state, action) => {
       state.filterDate = action.payload;
+    },
+    toggleNavIsOpen: state => {
+    state.navIsOpen = !state.navIsOpen;
+    },
+    updateSpo2: (state, action) => {
+      state.spo2 = action.payload;
+    },
+    updateHr: (state, action) => {
+      state.hr = action.payload;
     }
   },
   extraReducers: builder => {
@@ -80,7 +90,6 @@ export const dataReader = createSlice({
       files.forEach(file => {
         state.files[file.filename] = file.data.data;
       });
-      
     })
     .addCase(uploadFilesThunk.rejected, state => {
       state.status = 'failed';
@@ -89,6 +98,12 @@ export const dataReader = createSlice({
 })
     
 // Action creators are generated for each case reducer function
-export const { deleteStoredData, updateFilterDate } = dataReader.actions
+export const { 
+  deleteStoredData, 
+  updateFilterDate,
+  toggleNavIsOpen,
+  updateSpo2,
+  updateHr
+} = dataReader.actions
 
 export default dataReader.reducer
