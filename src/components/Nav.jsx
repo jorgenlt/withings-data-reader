@@ -18,7 +18,7 @@ import {
 } from "react-icons/hi2"
 import { SiOxygen } from "react-icons/si"
 import { GiNightSleep } from "react-icons/gi"
-import { FaInfo } from "react-icons/fa"
+import { FaInfo, FaWeight } from "react-icons/fa"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
@@ -110,7 +110,7 @@ const Nav = () => {
                   <span className='nav--icon'><HiArrowUpTray /></span>
                   <span className='nav--icon-text'>Upload files</span>
                 </li>
-                <li className='nav--element'>
+                <li className='nav--element' onClick={() => navigate('/user')}>
                   <span className='nav--icon'><HiUser /></span>
                   <span className='nav--icon-text'>User information</span>
                 </li>
@@ -125,6 +125,10 @@ const Nav = () => {
                 <li className='nav--element'>
                   <span className='nav--icon'><GiNightSleep /></span>
                   <span className='nav--icon-text'>Sleep</span>
+                </li>
+                <li className='nav--element' onClick={() => navigate('/weight')}>
+                  <span className='nav--icon'><FaWeight /></span>
+                  <span className='nav--icon-text'>Weight</span>
                 </li>
                 <li className='nav--element'>
                   <span className='nav--icon'><FaInfo /></span>

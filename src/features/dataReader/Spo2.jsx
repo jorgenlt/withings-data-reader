@@ -22,7 +22,13 @@ const Spo2 = () => {
 
   // Update chart when date changes or when spo2 is populated
   useEffect(() => {
+
+    console.log('Update chart when date changes or when spo2 is populated');
+
     if (spo2 && filterDate) {
+
+      console.log('if (spo2 && filterDate) executed');
+
       const filteredSpo2Data = filterByDate(spo2, filterDate);
   
       setFilteredSpo2(filteredSpo2Data);
@@ -37,19 +43,17 @@ const Spo2 = () => {
     >
       <h1>SpO2</h1>
       <div className='upload'>
-        { filteredSpo2 &&
-          <>
-            <h2>{filteredSpo2[0].start.split(',')[0]}</h2>
-            <p>Min: {minMaxSpo2.min}, Max: {minMaxSpo2.max}</p>
-          </>
+        {
+          filteredSpo2?.[0]?.start ? (
+            <>
+              <h2>{filteredSpo2[0].start.split(',')[0]}</h2>
+              <p>Min: {minMaxSpo2.min}, Max: {minMaxSpo2.max}</p>
+            </>
+          ) : (
+            <p>No data on chosen date.</p>
+          )
         }
       </div>
-      {/* {
-        spo2.length > 0 && filteredSpo2.length === 0 &&
-        <div>
-          <p>No data on chosen date.</p>
-        </div>
-      } */}
       {
         filteredSpo2 &&
         <div className='chart-wrapper'>

@@ -22,7 +22,13 @@ const HeartRate = () => {
 
   // Update chart when date changes or when hr is populated
   useEffect(() => {
+
+    console.log('Update chart when date changes or when hr is populated');
+
     if (hr && filterDate) {
+
+      console.log('if (hr && filterDate) executed');
+
       const filteredHrData = filterByDate(hr, filterDate);
   
       setFilteredHr(filteredHrData);
@@ -37,19 +43,17 @@ const HeartRate = () => {
     >
       <h1>Heart Rate</h1>
       <div className='upload'>
-        { filteredHr &&
-          <>
-            <h2>{filteredHr[0].start.split(',')[0]}</h2>
-            <p>Min: {minMaxHr.min}, Max: {minMaxHr.max}</p>
-          </>
+        { 
+          filteredHr?.[0]?.start ? (
+            <>
+              <h2>{filteredHr[0].start.split(',')[0]}</h2>
+              <p>Min: {minMaxHr.min}, Max: {minMaxHr.max}</p>
+            </>
+          ) : (
+            <p>No data on chosen date.</p>
+          )
         }
       </div>
-      {/* {
-        hr.length > 0 && filteredHr.length === 0 &&
-        <div>
-          <p>No data on chosen date.</p>
-        </div>
-      } */}
       {
         filteredHr &&
         <div className='chart-wrapper'>

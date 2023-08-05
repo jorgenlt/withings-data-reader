@@ -5,29 +5,26 @@ import Spo2 from './features/dataReader/Spo2'
 import HeartRate from './features/dataReader/HeartRate'
 import Nav from './components/Nav'
 import Home from './components/Home'
+import User from './features/dataReader/User'
+import Weight from './features/dataReader/Weight'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import format from 'date-fns/format'
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-  // const { user } = useSelector(state => state.dataReader.files);
-
-  // let firstName;
-  // let lastName;
-  // if (user) {
-  //   firstName = user[1][0];
-  //   lastName = user[1][1];
-  // }
-
-  
-  
   const { rawSpo2AutoSpo2, rawHrHr } = useSelector(state => state.dataReader.files);
   
   const dispatch = useDispatch();
   
   // Populate sp02 state
   useEffect(() => {
+
+    console.log('Populate sp02 state');
+
     if (rawSpo2AutoSpo2) {
+
+      console.log('if (rawSpo2AutoSpo2) executed');
+
       // Process raw data
       let rawData = [...rawSpo2AutoSpo2];
       
@@ -61,7 +58,13 @@ function App() {
 
   // Populate hr state
   useEffect(() => {
+
+    console.log('Populate hr state');
+
     if (rawHrHr) {
+
+      console.log('if (rawHrHr) executed');
+
       // Process raw data
       let rawData = [...rawHrHr];
       
@@ -99,20 +102,24 @@ function App() {
         <Nav />
         <Routes>
             <Route 
-              path="/" 
+              path='/' 
               element={<Home />} 
             />
             <Route 
-              path="/spo2" 
-              element={
-                  <Spo2 />
-              } 
+              path='/spo2' 
+              element={<Spo2 />} 
             />
             <Route 
-              path="/heartrate" 
-              element={
-                  <HeartRate />
-              } 
+              path='/heartrate' 
+              element={<HeartRate />} 
+            />
+            <Route 
+              path='/user'
+              element={<User />}
+            />
+            <Route 
+              path='/weight'
+              element={<Weight />}
             />
         </Routes>
       </>
