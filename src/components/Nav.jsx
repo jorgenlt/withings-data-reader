@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { 
   updateFilterDate, 
@@ -31,6 +32,7 @@ const Nav = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSetDate = () => {
     setDateIsOpen(prev => !prev);
@@ -110,27 +112,27 @@ const Nav = () => {
                   <span className='nav--icon'><HiArrowUpTray /></span>
                   <span className='nav--icon-text'>Upload files</span>
                 </li>
-                <li className='nav--element' onClick={() => navigate('/user')}>
+                <li className={`nav--element ${location.pathname === '/user' ? 'nav--element-chosen' : ''}`} onClick={() => navigate('/user')}>
                   <span className='nav--icon'><HiUser /></span>
                   <span className='nav--icon-text'>User information</span>
                 </li>
-                <li className='nav--element' onClick={() => navigate('/spo2')}>
+                <li className={`nav--element ${location.pathname === '/spo2' ? 'nav--element-chosen' : ''}`} onClick={() => navigate('/spo2')}>
                   <span className='nav--icon'><SiOxygen /></span>
                   <span className='nav--icon-text'>Blood Oxygen Saturation</span>
                 </li>
-                <li className='nav--element' onClick={() => navigate('/heartrate')}>
+                <li className={`nav--element ${location.pathname === '/heartrate' ? 'nav--element-chosen' : ''}`} onClick={() => navigate('/heartrate')}>
                   <span className='nav--icon'><HiHeart /></span>
                   <span className='nav--icon-text'>Heart Rate</span>
                 </li>
-                <li className='nav--element'>
+                <li className={`nav--element ${location.pathname === '/sleep' ? 'nav--element-chosen' : ''}`}>
                   <span className='nav--icon'><GiNightSleep /></span>
                   <span className='nav--icon-text'>Sleep</span>
                 </li>
-                <li className='nav--element' onClick={() => navigate('/weight')}>
+                <li className={`nav--element ${location.pathname === '/weight' ? 'nav--element-chosen' : ''}`} onClick={() => navigate('/weight')}>
                   <span className='nav--icon'><FaWeight /></span>
                   <span className='nav--icon-text'>Weight</span>
                 </li>
-                <li className='nav--element'>
+                <li className={`nav--element ${location.pathname === '/instructions' ? 'nav--element-chosen' : ''}`}>
                   <span className='nav--icon'><FaInfo /></span>
                   <span className='nav--icon-text'>Instructions</span>
                 </li>
