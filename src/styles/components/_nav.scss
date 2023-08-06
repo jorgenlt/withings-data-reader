@@ -2,7 +2,7 @@
   height: 100%;
   // width: 300px;
   z-index: 99;
-  background-color: $black;
+  background-color: $black-opacity;
   color: $white;
   position: fixed;
   // margin-right: 40px;
@@ -60,7 +60,7 @@
   transition-duration: 200ms;
 
   &:hover {
-    background-color: $blue-shadow;
+    background-color: $blue-opacity;
   }
 
   input {
@@ -75,7 +75,7 @@
 }
 
 .nav--element-chosen {
-  background-color: $blue-shadow;
+  background-color: $blue-opacity;
 }
 
 .nav--icon {
@@ -111,7 +111,7 @@
 //   cursor: pointer !important;
 
 //   &:focus, &:hover {
-//     box-shadow: 0 0 0 5px $blue-shadow;
+//     box-shadow: 0 0 0 5px $blue-opacity;
 //     background-color: $blue;
 //     color: $white;
 //     transition-duration: 200ms;

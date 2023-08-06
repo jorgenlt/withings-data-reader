@@ -41,7 +41,7 @@ const Spo2 = () => {
     <div 
       className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
     >
-      <h1>SpO2</h1>
+      <h1>Blood oxygen saturation (SpO2)</h1>
       <div className='upload'>
         {
           filteredSpo2?.[0]?.start ? (

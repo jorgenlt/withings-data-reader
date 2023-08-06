@@ -5,6 +5,10 @@ html, body, #root {
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
+  color: $white;
+  background-image: url(gradient-bg.jpg);
+  background-color: $blue;
+  background-size: cover;
 }
 
 #root {
@@ -30,7 +34,7 @@ button {
 
 button:hover {
   background-color: $blue;
-  box-shadow: 0 0 0 5px $blue-shadow;
+  box-shadow: 0 0 0 5px $blue-opacity;
   color: $white;
 }
 
