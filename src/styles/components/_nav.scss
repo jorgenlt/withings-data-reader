@@ -99,6 +99,19 @@
   z-index: 99;
 }
 
+.github {
+  position: absolute;
+  left: 20px;
+  bottom: 10px;
+  font-size: 25px;
+  text-decoration: none;
+  color: $white;
+  transition-duration: 200ms;
+
+  &:hover {
+    opacity: 0.4;
+  }
+}
 
 
 // .react-datepicker__view-calendar-icon input {
@@ -158,4 +171,3 @@
 //     flex-direction: column;
 //   }
 // }
-

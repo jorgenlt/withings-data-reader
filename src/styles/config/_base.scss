@@ -54,11 +54,11 @@ table {
 }
 
 .table {
-
+  
 }
 
 .upload {
-
+  
 }
 
 td, th {
@@ -83,4 +83,32 @@ body::-webkit-scrollbar-thumb {
   background-color: $scrollbar-thumb-bg;    /* color of the scroll thumb */
   border-radius: $scrollbar-thumb-br;       /* roundness of the scroll thumb */
   border: $scrollbar-thumb-border;  /* creates padding around scroll thumb */
+}
+
+
+/**
+* ----------------------------------------
+* animation fade-in
+* ----------------------------------------
+*/
+.fade-in {
+  -webkit-animation: fade-out 1s ease-out both;
+  animation: fade-out 1000ms ease-out both;
+}
+
+@-webkit-keyframes fade-out {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

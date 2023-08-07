@@ -64,6 +64,7 @@ export const dataReader = createSlice({
     },
     updateFilterDate: (state, action) => {
       state.filterDate = action.payload;
+      console.log('filterDate updated.');
     },
     toggleNavIsOpen: state => {
     state.navIsOpen = !state.navIsOpen;

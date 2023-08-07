@@ -9,8 +9,8 @@ import {
 } from "../features/dataReader/dataReaderSlice"
 import { CSSTransition } from 'react-transition-group'
 import { 
-  HiChevronDoubleLeft, 
-  HiOutlineBars3,
+  HiChevronLeft,
+  HiChevronRight,
   HiArrowUpTray,
   HiHeart,
   HiCalendarDays,
@@ -19,7 +19,11 @@ import {
 } from "react-icons/hi2"
 import { SiOxygen } from "react-icons/si"
 import { GiNightSleep } from "react-icons/gi"
-import { FaInfo, FaWeight } from "react-icons/fa"
+import { 
+  FaInfo, 
+  FaWeight,
+  FaGithub 
+} from "react-icons/fa"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
@@ -35,11 +39,14 @@ const Nav = () => {
   const location = useLocation();
 
   const handleSetDate = () => {
-    setDateIsOpen(prev => !prev);
+    if (!dateIsOpen) {
+      setDateIsOpen(true);
+    } 
   }
 
   const handleDateChange = date => {
-    dispatch(updateFilterDate(new Date(date)))
+    dispatch(updateFilterDate(new Date(date)));
+    setDateIsOpen(false);
   };
 
   const handleFileUpload = e => {
@@ -59,13 +66,15 @@ const Nav = () => {
 
   return (
     <>
-      <div 
-        className="nav--open"
-        onClick={() => dispatch(toggleNavIsOpen())}
-      >
-        <HiOutlineBars3 />
-      </div>
-        {/* open menu */}
+      {/* open menu */}
+      { !navIsOpen &&
+        <div 
+          className="nav--open fade-in"
+          onClick={() => dispatch(toggleNavIsOpen())}
+        >
+          <HiChevronRight />
+        </div>
+      }
         <CSSTransition
           in={navIsOpen}
           nodeRef={nodeRef}
@@ -79,10 +88,10 @@ const Nav = () => {
           >
             {/* close menu */}
             <div 
-              className="nav--close" 
+              className="nav--close fade-in" 
               onClick={() => dispatch(toggleNavIsOpen())}
             >
-              <HiChevronDoubleLeft />
+              <HiChevronLeft />
             </div>
             {/* menu content */}
             <div className='nav--content'>
@@ -142,6 +151,9 @@ const Nav = () => {
                 </li>
               </ul>
             </div>
+            <a href='https://github.com/jorgenlt/withings-data-reader' target='_blank' rel="noreferrer" className='github'>
+             <FaGithub />
+            </a>
           </div>
         </CSSTransition>
     </>
