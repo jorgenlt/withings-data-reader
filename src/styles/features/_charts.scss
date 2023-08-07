@@ -1,30 +1,41 @@
 .chart-wrapper {
-  padding: 40px;
+  padding: 20px;
   overflow-x: auto;
   max-width: 80vw;
   background-color: $black-opacity;
   border-radius: 10px;
+  color: $dark-gray;
+
+  h3 {
+    margin-top: 0px;
+  }
 }
 
-.chart-wrapper::-webkit-scrollbar {
-  width: $scrollbar-widht;
+.raw-data {
+  margin: 20px 0px;
+  background-color: $black-opacity;
+  color: $dark-gray;
+  width: fit-content;
+  border-radius: 10px;
 }
 
-.chart-wrapper::-webkit-scrollbar-track {
-  background: $scrollbar-track-bg;
-  margin: 0px 5px;
+.table {
+  color: $dark-gray;
+
+  tr:hover {
+    color: $white;
+  }
 }
 
-.chart-wrapper::-webkit-scrollbar-thumb {
-  background-color: $scrollbar-thumb-bg;
-  border-radius: $scrollbar-thumb-br;
-  border: $scrollbar-thumb-border;
+.show-raw-data {
+  margin: 20px 0px 0px 0px;
+  cursor: pointer;
+  color: $dark-gray;
+  transition-duration: 200ms;
+
+  &:hover {
+    color: white;
+  }
 }
 
-.chart-wrapper::-webkit-scrollbar-thumb:active {
-  background: $scrollbar-thumb-active-hover-bg;
-}
 
-.chart-wrapper::-webkit-scrollbar-thumb:hover {
-  background: $scrollbar-thumb-active-hover-bg;
-}

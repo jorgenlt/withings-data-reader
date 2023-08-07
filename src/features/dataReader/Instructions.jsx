@@ -1,14 +1,15 @@
 import { useSelector } from 'react-redux'
-const Weight = () => {
+
+const Instructions = () => {
   const { navIsOpen } = useSelector(state => state.dataReader);
 
   return (
     <div 
       className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
     >
-      <h1>Weight</h1>
+      <h1>Instructions</h1>
     </div>
   )
 }
 
-export default Weight
+export default Instructions

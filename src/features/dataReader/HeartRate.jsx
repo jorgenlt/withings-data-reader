@@ -42,91 +42,101 @@ const HeartRate = () => {
       className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
     >
       <h1>Heart Rate</h1>
-      <div className='upload'>
-        { 
-          filteredHr?.[0]?.start ? (
-            <>
-              <h2>{filteredHr[0].start.split(',')[0]}</h2>
-              <p>Min: {minMaxHr.min}, Max: {minMaxHr.max}</p>
-            </>
-          ) : (
-            <p>No data on chosen date.</p>
-          )
-        }
-      </div>
       {
         filteredHr &&
-        <div className='chart-wrapper'>
-          <ResponsiveContainer width={filteredHr.length * 20} height={300} >
-            <LineChart 
-              // width={800} 
-              // height={400} 
-              data={filteredHr}
-              margin={{ top: 20, right: 40, bottom: 20, left: 20 }} 
-              style={{ fontFamily: 'sans-serif' }}
-              >
-              <Line 
-                type="monotone" 
-                dataKey="value" 
-                stroke="#C736E7"
-                strokeWidth={2}
-                dot={{ stroke: '#C736E7', strokeWidth: 2 , background: '#C736E7'}}
-                />
-              <CartesianGrid 
-                stroke="#787E91" 
-                strokeDasharray="5 5"
-                />
-              <XAxis 
-                dataKey="time" 
-                tickMargin={10}
-                angle={0}
-                padding={{ left: 0 }}
-                stroke="#787E91"
-                />
-              <YAxis 
-                unit={' bpm'}
-                domain={['dataMin', 'dataMax']}
-                interval='preserveEnd'
-                // scale={'log'}
-                tickMargin={10}
-                stroke="#787E91"
-                />
-              <Tooltip 
-                // itemStyle={}
-                // wrapperStyle={}
-                // labelStyle={}
-                contentStyle={{ backgroundColor: '#1214167a', border: 'none', borderRadius: '5px' }}
-                cursor={{ stroke: '#C736E7', strokeWidth: 1 }}
-                />
-            </LineChart>
-          </ResponsiveContainer>
-          <button onClick={() => setShowRawData(prev=> !prev)}>Raw data</button>
+        <>
+          <div className='chart-wrapper'>
+            <div className='chart--date'>
+              { 
+                filteredHr?.[0]?.start ? (
+                  <>
+                    <h2>{filteredHr[0].start.split(',')[0]}</h2>
+                    <p>Min: {minMaxHr.min}, Max: {minMaxHr.max}</p>
+                  </>
+                ) : (
+                  <p>No data on chosen date.</p>
+                )
+              }
+            </div>
+            <ResponsiveContainer width={filteredHr.length * 20} height={300} >
+              <LineChart 
+                // width={800} 
+                // height={400} 
+                data={filteredHr}
+                margin={{ top: 20, right: 40, bottom: 20, left: 20 }} 
+                style={{ fontFamily: 'sans-serif' }}
+                >
+                <Line 
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke="#C736E7"
+                  strokeWidth={2}
+                  dot={{ stroke: '#C736E7', strokeWidth: 2 , background: '#C736E7'}}
+                  />
+                <CartesianGrid 
+                  stroke="#787E91" 
+                  strokeDasharray="5 5"
+                  />
+                <XAxis 
+                  dataKey="time" 
+                  tickMargin={10}
+                  angle={0}
+                  padding={{ left: 0 }}
+                  stroke="#787E91"
+                  />
+                <YAxis 
+                  unit={' bpm'}
+                  domain={['dataMin', 'dataMax']}
+                  interval='preserveEnd'
+                  // scale={'log'}
+                  tickMargin={10}
+                  stroke="#787E91"
+                  />
+                <Tooltip 
+                  // itemStyle={}
+                  // wrapperStyle={}
+                  // labelStyle={}
+                  contentStyle={{ backgroundColor: '#1214167a', border: 'none', borderRadius: '5px' }}
+                  cursor={{ stroke: '#C736E7', strokeWidth: 1 }}
+                  />
+              </LineChart>
+            </ResponsiveContainer>
+            <p 
+              onClick={() => setShowRawData(prev=> !prev)}
+              className="show-raw-data"
+            >
+              Raw data
+            </p>
+          </div>
+
           {
             showRawData &&
-            <div className='table'>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Time</th>
-                    <th>Hear rate</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  { hr &&
-                    hr.map(record => {
-                      return (
-                        <tr key={record.id}>
-                          <td>{record.start}</td>
-                          <td>{`${record.value} bpm`}</td>
-                        </tr>
-                      )
-                    })
-                  }
-                </tbody>
-              </table>
+            <div className="raw-data">
+              <div className='table'>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>Heart rate</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    { hr &&
+                      hr.map(record => {
+                        return (
+                          <tr key={record.id}>
+                            <td>{record.start}</td>
+                            <td>{`${record.value} bpm`}</td>
+                          </tr>
+                        )
+                      })
+                    }
+                  </tbody>
+                </table>
+              </div>
             </div>
           }
-        </div>
+        </>
       }
     </div>
   )

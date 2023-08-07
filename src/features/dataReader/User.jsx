@@ -2,13 +2,6 @@ import { useSelector } from 'react-redux'
 import { calculateAge } from '../../common/utils/calculateAge'
 import { v4 as uuid } from 'uuid'
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-
 const User = () => {
   const { navIsOpen } = useSelector(state => state.dataReader);
   const { 
@@ -46,36 +39,40 @@ const User = () => {
     <div 
       className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
     >
-      <TableContainer component={Paper} style={{ margin: '30px 0px 0px 10px' }}>
-        <Table sx={{ minWidth: 0 }} aria-label="simple table">
-          <TableBody>
-            <TableRow key={uuid()}>
-              <TableCell component="th" scope="row">Name</TableCell>
-              <TableCell align="left">{firstName} {lastName}</TableCell>
-            </TableRow>
-            <TableRow key={uuid()}>
-              <TableCell component="th" scope="row">Email</TableCell>
-              <TableCell align="left">{email}</TableCell>
-            </TableRow>
-            <TableRow key={uuid()}>
-              <TableCell component="th" scope="row">Gender</TableCell>
-              <TableCell align="left">{gender}</TableCell>
-            </TableRow>
-            <TableRow key={uuid()}>
-              <TableCell component="th" scope="row">Age</TableCell>
-              <TableCell align="left">{age}</TableCell>
-            </TableRow>
-            <TableRow key={uuid()}>
-              <TableCell component="th" scope="row">{weightUnit}</TableCell>
-              <TableCell align="left">{userWeight}</TableCell>
-            </TableRow>
-            <TableRow key={uuid()}>
-              <TableCell component="th" scope="row">{heightUnit}</TableCell>
-              <TableCell align="left">{userHeight}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <h1>User Information</h1>
+      {
+        user &&
+        <div className='user-table'>
+          <table>
+            <tbody>
+              <tr key={uuid()}>
+                <td>Name:</td>
+                <td align="left">{firstName} {lastName}</td>
+              </tr>
+              <tr key={uuid()}>
+                <td>Email:</td>
+                <td align="left">{email}</td>
+              </tr>
+              <tr key={uuid()}>
+                <td>Gender:</td>
+                <td align="left">{gender}</td>
+              </tr>
+              <tr key={uuid()}>
+                <td>Age:</td>
+                <td align="left">{age}</td>
+              </tr>
+              <tr key={uuid()}>
+                <td>{weightUnit}:</td>
+                <td align="left">{userWeight}</td>
+              </tr>
+              <tr key={uuid()}>
+                <td>{heightUnit}:</td>
+                <td align="left">{userHeight}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      }
     </div>
   )
 }

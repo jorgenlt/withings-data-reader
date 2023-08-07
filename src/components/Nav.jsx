@@ -98,7 +98,7 @@ const Nav = () => {
               <ul>
                 <li className='nav--element' onClick={handleSetDate}>
                   <span className='nav--icon'><HiCalendarDays /></span>
-                  <span className='nav--icon-text'>Set date</span>
+                  <span className='nav--icon-text'>Set Date</span>
                   {
                     dateIsOpen &&
                     <div className='nav--datepicker'>
@@ -119,11 +119,11 @@ const Nav = () => {
                     onChange={handleFileUpload} 
                   />
                   <span className='nav--icon'><HiArrowUpTray /></span>
-                  <span className='nav--icon-text'>Upload files</span>
+                  <span className='nav--icon-text'>Upload Files</span>
                 </li>
                 <li className={`nav--element ${location.pathname === '/user' ? 'nav--element-chosen' : ''}`} onClick={() => navigate('/user')}>
                   <span className='nav--icon'><HiUser /></span>
-                  <span className='nav--icon-text'>User information</span>
+                  <span className='nav--icon-text'>User Information</span>
                 </li>
                 <li className={`nav--element ${location.pathname === '/spo2' ? 'nav--element-chosen' : ''}`} onClick={() => navigate('/spo2')}>
                   <span className='nav--icon'><SiOxygen /></span>
@@ -133,7 +133,7 @@ const Nav = () => {
                   <span className='nav--icon'><HiHeart /></span>
                   <span className='nav--icon-text'>Heart Rate</span>
                 </li>
-                <li className={`nav--element ${location.pathname === '/sleep' ? 'nav--element-chosen' : ''}`}>
+                <li className={`nav--element ${location.pathname === '/sleep' ? 'nav--element-chosen' : ''}`} onClick={() => navigate('/sleep')}>
                   <span className='nav--icon'><GiNightSleep /></span>
                   <span className='nav--icon-text'>Sleep</span>
                 </li>
@@ -141,13 +141,13 @@ const Nav = () => {
                   <span className='nav--icon'><FaWeight /></span>
                   <span className='nav--icon-text'>Weight</span>
                 </li>
-                <li className={`nav--element ${location.pathname === '/instructions' ? 'nav--element-chosen' : ''}`}>
+                <li className={`nav--element ${location.pathname === '/instructions' ? 'nav--element-chosen' : ''}`} onClick={() => navigate('/instructions')}>
                   <span className='nav--icon'><FaInfo /></span>
                   <span className='nav--icon-text'>Instructions</span>
                 </li>
                 <li className='nav--element' onClick={handleDeleteData}>
                   <span className='nav--icon'><HiTrash /></span>
-                  <span className='nav--icon-text'>Delete data</span>
+                  <span className='nav--icon-text'>Delete Data</span>
                 </li>
               </ul>
             </div>
