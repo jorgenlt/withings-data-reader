@@ -9,3 +9,12 @@ $blue: #1479C9;
 $blue-opacity: #1479c954;
 
 // fonts
+
+// scrollbar
+$scrollbar-widht: 12px;
+$scrollbar-track-bg: none;
+$scrollbar-thumb-bg: $black-opacity;
+$scrollbar-thumb-br: 5px;
+$scrollbar-thumb-border: none;
+$scrollbar-thumb-active-hover-bg: lighten($black-opacity, 30);
+

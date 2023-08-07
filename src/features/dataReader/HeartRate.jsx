@@ -68,11 +68,12 @@ const HeartRate = () => {
               <Line 
                 type="monotone" 
                 dataKey="value" 
-                stroke="#8884d8"
+                stroke="#C736E7"
                 strokeWidth={2}
+                dot={{ stroke: '#C736E7', strokeWidth: 2 , background: '#C736E7'}}
                 />
               <CartesianGrid 
-                stroke="#ccc" 
+                stroke="#787E91" 
                 strokeDasharray="5 5"
                 />
               <XAxis 
@@ -80,6 +81,7 @@ const HeartRate = () => {
                 tickMargin={10}
                 angle={0}
                 padding={{ left: 0 }}
+                stroke="#787E91"
                 />
               <YAxis 
                 unit={' bpm'}
@@ -87,12 +89,14 @@ const HeartRate = () => {
                 interval='preserveEnd'
                 // scale={'log'}
                 tickMargin={10}
+                stroke="#787E91"
                 />
               <Tooltip 
                 // itemStyle={}
                 // wrapperStyle={}
-                contentStyle={{ textTransform: 'capitalize' }}
                 // labelStyle={}
+                contentStyle={{ backgroundColor: '#1214167a', border: 'none', borderRadius: '5px' }}
+                cursor={{ stroke: '#C736E7', strokeWidth: 1 }}
                 />
             </LineChart>
           </ResponsiveContainer>

@@ -19,7 +19,8 @@ body {
 .app-wrapper {
   // margin-left: 60px;
   transition: all 100ms linear;
-
+  overflow: hidden;
+  margin-right: 20px;
 }
 
 button {
@@ -68,4 +69,18 @@ td, th {
 
 tr:nth-child(even) {
   background-color: $light-gray;
+}
+
+body::-webkit-scrollbar {
+  width: $scrollbar-widht;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: $scrollbar-track-bg;        /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: $scrollbar-thumb-bg;    /* color of the scroll thumb */
+  border-radius: $scrollbar-thumb-br;       /* roundness of the scroll thumb */
+  border: $scrollbar-thumb-border;  /* creates padding around scroll thumb */
 }

@@ -1,6 +1,30 @@
 .chart-wrapper {
-  padding: 20px;
+  padding: 40px;
   overflow-x: auto;
   max-width: 80vw;
+  background-color: $black-opacity;
+  border-radius: 10px;
 }
 
+.chart-wrapper::-webkit-scrollbar {
+  width: $scrollbar-widht;
+}
+
+.chart-wrapper::-webkit-scrollbar-track {
+  background: $scrollbar-track-bg;
+  margin: 0px 5px;
+}
+
+.chart-wrapper::-webkit-scrollbar-thumb {
+  background-color: $scrollbar-thumb-bg;
+  border-radius: $scrollbar-thumb-br;
+  border: $scrollbar-thumb-border;
+}
+
+.chart-wrapper::-webkit-scrollbar-thumb:active {
+  background: $scrollbar-thumb-active-hover-bg;
+}
+
+.chart-wrapper::-webkit-scrollbar-thumb:hover {
+  background: $scrollbar-thumb-active-hover-bg;
+}
