@@ -55,7 +55,7 @@ const User = () => {
               </tr>
               <tr key={uuid()}>
                 <td>Gender:</td>
-                <td align="left">{gender}</td>
+                <td align="left" className='capitalize'>{gender}</td>
               </tr>
               <tr key={uuid()}>
                 <td>Age:</td>

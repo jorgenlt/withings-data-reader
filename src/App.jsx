@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const { rawSpo2AutoSpo2, rawHrHr } = useSelector(state => state.dataReader.files);
-  
+  console.log(useSelector(state => state.dataReader.files));
   const dispatch = useDispatch();
   
   // Populate sp02 state
@@ -92,9 +92,6 @@ function App() {
     
       // Updating hr in state
       dispatch(updateHr(sortedData));
-
-      // Set most recent date
-      // dispatch(updateFilterDate(new Date(sortedData[sortedData.length - 1].start)))
     }
   }, [rawHrHr]);
 

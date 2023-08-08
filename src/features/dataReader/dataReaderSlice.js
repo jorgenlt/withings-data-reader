@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import Papa from 'papaparse'
 import { camelCaseFileName } from '../../common/utils/camelCaseFileName'
+import { demoFiles } from '../../assets/demoFiles'
 
 const initialState = {
   value: 0,
@@ -8,7 +9,8 @@ const initialState = {
   status: 'idle',
   filterDate: null,
   navIsOpen: true,
-  files: {}
+  files: {},
+  demoFiles: demoFiles,
 }
 
 // Upload thunk. Accepts files object from file input.
@@ -74,6 +76,9 @@ export const dataReader = createSlice({
     },
     updateHr: (state, action) => {
       state.hr = action.payload;
+    },
+    setDemoFiles: state => {
+      state.files = state.demoFiles;
     }
   },
   extraReducers: builder => {
@@ -104,7 +109,8 @@ export const {
   updateFilterDate,
   toggleNavIsOpen,
   updateSpo2,
-  updateHr
+  updateHr,
+  setDemoFiles
 } = dataReader.actions
 
 export default dataReader.reducer

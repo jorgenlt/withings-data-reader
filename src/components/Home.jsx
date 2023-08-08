@@ -7,7 +7,7 @@ const Home = () => {
     <div 
     className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
     >
-      <div>Home</div>
+      <h1>Home</h1>
     </div>
   )
 }

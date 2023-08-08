@@ -1,11 +1,10 @@
 .nav {
   height: 100%;
-  // width: 300px;
   z-index: 99;
   background-color: $black-opacity;
   color: $white;
   position: fixed;
-  // margin-right: 40px;
+  user-select: none;
   
   ul {
     display: flex;
@@ -88,10 +87,6 @@
   align-items: center;
 }
 
-.nav--icon-text {
-
-}
-
 .nav--datepicker {
   position: absolute;
   top: 60px;
@@ -113,37 +108,6 @@
   }
 }
 
-
-// .react-datepicker__view-calendar-icon input {
-//   background-color: $white;
-//   color: $blue;
-//   border: none;
-//   border-radius: 3px;
-//   width: 85px;
-//   margin-left: 5px;
-//   cursor: pointer !important;
-
-//   &:focus, &:hover {
-//     box-shadow: 0 0 0 5px $blue-opacity;
-//     background-color: $blue;
-//     color: $white;
-//     transition-duration: 200ms;
-
-//   }
-
-//   &:focus-visible {
-//     outline: none;
-//   }
-// }
-
-// .react-datepicker__calendar-icon {
-//   padding: 5px 10px 5px 10px !important;
-// }
-
-// .react-datepicker-wrapper {
-//   width: min-content;
-// }
-
 // CSSTransition
 .nav--transition-enter {
   transform: translateX(-360px);
@@ -159,15 +123,3 @@
   transform: translateX(-360px);
   transition: all 100ms linear;
 }
-
-// Responsivness
-// @media screen and (max-width: 900px) {
-//   .nav--mobile-open, .nav--mobile-close {
-//     display: flex;
-//   }
-
-//   .nav--mobile {
-//     display: flex;
-//     flex-direction: column;
-//   }
-// }

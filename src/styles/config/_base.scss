@@ -65,6 +65,10 @@ input[type=file] {
   padding: 5px 5px;
 }
 
+.capitalize {
+  text-transform: capitalize;
+}
+
 // Scrollbar styling
 $scrollbar-height-width: 5px;
 $scrollbar-track-bg: none;

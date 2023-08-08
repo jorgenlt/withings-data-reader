@@ -5,7 +5,8 @@ import {
   updateFilterDate, 
   deleteStoredData, 
   uploadFilesThunk,
-  toggleNavIsOpen 
+  toggleNavIsOpen,
+  setDemoFiles 
 } from "../features/dataReader/dataReaderSlice"
 import { CSSTransition } from 'react-transition-group'
 import { 
@@ -15,7 +16,8 @@ import {
   HiHeart,
   HiCalendarDays,
   HiTrash,
-  HiUser
+  HiUser,
+  HiDocumentChartBar
 } from "react-icons/hi2"
 import { SiOxygen } from "react-icons/si"
 import { GiNightSleep } from "react-icons/gi"
@@ -34,6 +36,7 @@ const Nav = () => {
 
   const { filterDate, navIsOpen } = useSelector(state => state.dataReader);
 
+  // Initializing hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -62,11 +65,16 @@ const Nav = () => {
     }
   }
 
+  const handleDemoFiles = () => {
+    dispatch(setDemoFiles())
+  }
+
+  // Initialize ref for CSSTransition
   const nodeRef = useRef(null);
 
   return (
     <>
-      {/* open menu */}
+      {/* Open navigation */}
       { !navIsOpen &&
         <div 
           className="nav--open fade-in"
@@ -86,14 +94,14 @@ const Nav = () => {
             className='nav'
             ref={nodeRef}
           >
-            {/* close menu */}
+            {/* Close navigation */}
             <div 
               className="nav--close fade-in" 
               onClick={() => dispatch(toggleNavIsOpen())}
             >
               <HiChevronLeft />
             </div>
-            {/* menu content */}
+            {/* Navigation content */}
             <div className='nav--content'>
               <ul>
                 <li className='nav--element' onClick={handleSetDate}>
@@ -145,6 +153,10 @@ const Nav = () => {
                   <span className='nav--icon'><FaInfo /></span>
                   <span className='nav--icon-text'>Instructions</span>
                 </li>
+                <li className='nav--element' onClick={handleDemoFiles}>
+                  <span className='nav--icon'><HiDocumentChartBar /></span>
+                  <span className='nav--icon-text'>Use Demo Files</span>
+                </li>
                 <li className='nav--element' onClick={handleDeleteData}>
                   <span className='nav--icon'><HiTrash /></span>
                   <span className='nav--icon-text'>Delete Data</span>
@@ -152,7 +164,7 @@ const Nav = () => {
               </ul>
             </div>
             <a href='https://github.com/jorgenlt/withings-data-reader' target='_blank' rel="noreferrer" className='github'>
-             <FaGithub />
+              <FaGithub />
             </a>
           </div>
         </CSSTransition>
