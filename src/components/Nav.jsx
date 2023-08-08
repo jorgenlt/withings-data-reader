@@ -17,7 +17,8 @@ import {
   HiCalendarDays,
   HiTrash,
   HiUser,
-  HiDocumentChartBar
+  HiDocumentChartBar,
+  HiHome
 } from "react-icons/hi2"
 import { SiOxygen } from "react-icons/si"
 import { GiNightSleep } from "react-icons/gi"
@@ -104,6 +105,10 @@ const Nav = () => {
             {/* Navigation content */}
             <div className='nav--content'>
               <ul>
+                <li className={`nav--element ${location.pathname === '/' ? 'nav--element-chosen' : ''}`} onClick={() => navigate('/')}>
+                  <span className='nav--icon'><HiHome /></span>
+                  <span className='nav--icon-text'>Home</span>
+                </li>
                 <li className='nav--element' onClick={handleSetDate}>
                   <span className='nav--icon'><HiCalendarDays /></span>
                   <span className='nav--icon-text'>Set Date</span>
@@ -155,7 +160,7 @@ const Nav = () => {
                 </li>
                 <li className='nav--element' onClick={handleDemoFiles}>
                   <span className='nav--icon'><HiDocumentChartBar /></span>
-                  <span className='nav--icon-text'>Use Demo Files</span>
+                  <span className='nav--icon-text'>Load Demo Files</span>
                 </li>
                 <li className='nav--element' onClick={handleDeleteData}>
                   <span className='nav--icon'><HiTrash /></span>

@@ -1,0 +1,33 @@
+.home {
+  a, span {
+    cursor: pointer;
+    color: $pink;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.smartwatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  gap: 10px;
+  position: absolute;
+  bottom: 40px;
+  right: 0px;
+}
+
+.smartwatch--credit {
+  color: $pink;
+  font-size: 10px;
+}
+
+.logo-withings {
+  width: 200px;
+}
+
