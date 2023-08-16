@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { filterByDate } from '../../common/utils/queryFilters'
 import { findMinMax } from '../../common/utils/findMinMax'
+import { addDays, format } from 'date-fns'
 import { 
   LineChart, 
   Line, 
@@ -10,7 +11,9 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer
-} from 'recharts';
+} from 'recharts'
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { updateFilterDate } from "./dataReaderSlice"
 
 const Spo2 = () => {
   const [filteredSpo2, setFilteredSpo2] = useState(null);
@@ -20,19 +23,25 @@ const Spo2 = () => {
   // Get data from Redux
   const { filterDate, navIsOpen, spo2 } = useSelector(state => state.dataReader);
 
+  // Initializing hooks
+  const dispatch = useDispatch();
+
+  // Navigate date
+  const handleNavigateDate = direction => {
+    if (direction === 'prev') {
+      const prevDate = addDays(filterDate, -1);
+      dispatch(updateFilterDate(prevDate));
+    } else {
+      const nextDate = addDays(filterDate, 1);
+      dispatch(updateFilterDate(nextDate));
+    }
+  }
+
   // Update chart when date changes or when spo2 is populated
   useEffect(() => {
-
-    console.log('Update chart when date changes or when spo2 is populated');
-
     if (spo2 && filterDate) {
-
-      console.log('if (spo2 && filterDate) executed');
-
       const filteredSpo2Data = filterByDate(spo2, filterDate);
-  
       setFilteredSpo2(filteredSpo2Data);
-  
       setMinMaxSpo2(findMinMax(filteredSpo2Data));
     }
   }, [filterDate, spo2])
@@ -47,12 +56,12 @@ const Spo2 = () => {
         <>
           <div className='chart-wrapper'>
             <div className='chart--date'>
+              <div className="chart--date-icon" onClick={() => handleNavigateDate('prev')}><FaAngleLeft /></div>
+              <div className="chart--date-icon" onClick={() => handleNavigateDate('right')}><FaAngleRight /></div>
+              <h3>{format(filterDate, 'MMMM d y')}</h3>
               {
                 filteredSpo2?.[0]?.start ? (
-                  <>
-                    <h3>{filteredSpo2[0].start.split(',')[0]}</h3>
-                    <p>Min: {minMaxSpo2.min}, Max: {minMaxSpo2.max}</p>
-                  </>
+                  <p>Min: {minMaxSpo2.min}, Max: {minMaxSpo2.max}</p>
                 ) : (
                   <p>No data on chosen date.</p>
                 )

@@ -1,6 +1,7 @@
 .chart-wrapper {
   padding: 20px;
   overflow-x: auto;
+  min-width: 700px;
   max-width: 80vw;
   background-color: $black-opacity;
   border-radius: 10px;
@@ -39,4 +40,29 @@
   }
 }
 
+.chart--date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
+  h3 {
+    margin: 0;
+  }
+}
+
+.chart--date-icon {
+  color: $white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background-color: $black-opacity;
+  transition-duration: 200ms;
+
+  &:hover {
+    background-color: $blue-opacity;
+  }
+}

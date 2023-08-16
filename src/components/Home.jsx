@@ -13,7 +13,7 @@ const Home = () => {
       <h1>Withings Data Reader</h1>
       <h2>Upload data from your Withings account and view detailed charts.</h2>
       <p>
-        Upload your own data from Withings or choose Load Demo Files to test. See <span onClick={() => navigate('/instructions')}>instructions</span> for help.
+        Upload your own data from Withings or choose Load Demo Files to test the application. See <span onClick={() => navigate('/instructions')}>instructions</span> for help.
       </p>
       <p>
         The application is tested with data from Withings Scanwatch.

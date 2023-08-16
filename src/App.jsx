@@ -15,18 +15,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const { rawSpo2AutoSpo2, rawHrHr } = useSelector(state => state.dataReader.files);
-  console.log(useSelector(state => state.dataReader.files));
+
   const dispatch = useDispatch();
   
   // Populate sp02 state
   useEffect(() => {
-
-    console.log('Populate sp02 state');
-
     if (rawSpo2AutoSpo2) {
-
-      console.log('if (rawSpo2AutoSpo2) executed');
-
       // Process raw data
       let rawData = [...rawSpo2AutoSpo2];
       
@@ -60,13 +54,7 @@ function App() {
 
   // Populate hr state
   useEffect(() => {
-
-    console.log('Populate hr state');
-
     if (rawHrHr) {
-
-      console.log('if (rawHrHr) executed');
-
       // Process raw data
       let rawData = [...rawHrHr];
       

@@ -8,6 +8,10 @@ import {
   toggleNavIsOpen,
   setDemoFiles 
 } from "../features/dataReader/dataReaderSlice"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+
+import { useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group'
 import { 
   HiChevronLeft,
@@ -27,10 +31,6 @@ import {
   FaWeight,
   FaGithub 
 } from "react-icons/fa"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-
-import { useNavigate } from 'react-router-dom';
 
 const Nav = () => {
   const [dateIsOpen, setDateIsOpen] = useState(false);
