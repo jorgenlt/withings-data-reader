@@ -40,7 +40,10 @@ const Sleep = () => {
       const awake = filteredSleepStateData.filter(d => d.value === 0); 
       const light = filteredSleepStateData.filter(d => d.value === 1);
       const deep = filteredSleepStateData.filter(d => d.value === 2);
-      
+      // console.log('awake:', awake);
+      // console.log('light:', light);
+      // console.log('deep', deep);
+      console.log(filteredSleepStateData);
       setFilteredSleepState(filteredSleepStateData);
       setAwakeData(awake);
       setLightSleepData(light);
@@ -73,25 +76,26 @@ const Sleep = () => {
             
             </ResponsiveContainer> */}
 
-            <AreaChart width={600} height={400} data={filteredSleepState}>
-                
-                <Area dataKey="duration" stroke="#555" fill="#555" data={awakeData} />
-                
-                <Area dataKey="duration" stroke="#abc" fill="#abc" data={lightSleepData} />
-
-                <Area dataKey="duration" stroke="#888" fill="#888" data={deepSleepData} />
-
-                <XAxis dataKey="start" />
-
-                <Tooltip 
-                  labelFormatter={(value) => {
-                    if(value === 0) return 'Awake';
-                    if(value === 1) return 'Light Sleep';
-                    if(value === 2) return 'Deep Sleep';
-                  }}
-                />
-              
-              </AreaChart>
+            <AreaChart data={filteredSleepState}>
+              <Area 
+                dataKey="duration"
+                stroke="#8884d8"
+                fill={(data) => {
+                  if(data.value === 0) return '#555'; 
+                  if(data.value === 1) return '#abc';
+                  if(data.value === 2) return '#888';
+                }}
+              />
+              <XAxis dataKey="start" />
+              <YAxis dataKey="value" />
+              <Tooltip
+                labelFormatter={(value) => {
+                  if(value === 0) return 'Awake';
+                  if(value === 1) return 'Light Sleep';
+                  if(value === 2) return 'Deep Sleep'; 
+                }}
+              />
+            </AreaChart>
             <p 
               onClick={() => setShowRawData(prev=> !prev)}
               className="show-raw-data"
