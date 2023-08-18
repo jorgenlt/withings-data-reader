@@ -141,7 +141,7 @@ function App() {
       
       // Sort by date
       const sortedData = data.sort((a, b) => new Date(a.start) - new Date(b.start))
-      console.log(sortedData);
+      // console.log(sortedData);
       // Updating hr in state
       dispatch(updateSleepState(sortedData));
     }

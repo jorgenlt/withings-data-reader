@@ -7,14 +7,12 @@ import { updateFilterDate } from "./dataReaderSlice"
 
 
 
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+// import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const Sleep = () => {
   const [filteredSleepState, setFilteredSleepState] = useState(null);
   const [showRawData, setShowRawData] = useState(false);
-  const [awakeData, setAwakeData] = useState(null);
-  const [lightSleepData, setLightSleepData] = useState(null);
-  const [deepSleepData, setDeepSleepData] = useState(null);
 
   // Get data from Redux
   const { filterDate, navIsOpen, sleepState } = useSelector(state => state.dataReader);
@@ -33,21 +31,39 @@ const Sleep = () => {
     }
   }
 
+  const fillColor = obj => {
+    if (obj.value === 0) {
+      return '#e76f51'; 
+    } else if (obj.value === 1) {
+      return '#f4a261';
+    } else {
+      return '#e9c46a';
+    }
+  }
+
+  const tickY = value => {
+    // console.log(value);
+    if (value === 0) {
+      return 'awake'; 
+    } else if (value === 1) {
+      return 'light';
+    } else if (value === 2) {
+      return 'deep';
+    } else {
+      return '';
+    }
+  }
+  
+
   // Update chart when date changes or when sleepState is populated
   useEffect(() => {
     if (sleepState && filterDate) {
       const filteredSleepStateData = filterByDate(sleepState, filterDate);
-      const awake = filteredSleepStateData.filter(d => d.value === 0); 
-      const light = filteredSleepStateData.filter(d => d.value === 1);
-      const deep = filteredSleepStateData.filter(d => d.value === 2);
       // console.log('awake:', awake);
       // console.log('light:', light);
       // console.log('deep', deep);
-      console.log(filteredSleepStateData);
+      console.log('filteredSleepStateData', filteredSleepStateData);
       setFilteredSleepState(filteredSleepStateData);
-      setAwakeData(awake);
-      setLightSleepData(light);
-      setDeepSleepData(deep);
     }
   }, [filterDate, sleepState])
 
@@ -57,7 +73,7 @@ const Sleep = () => {
     >
       <h1>Sleep State</h1>
       {
-        sleepState &&
+        filteredSleepState &&
         <>
           <div className='chart-wrapper'>
             <div className='chart--date'>
@@ -72,30 +88,57 @@ const Sleep = () => {
                 )
               }
             </div>
-            {/* <ResponsiveContainer width={1000} aspect={2.5}>
-            
-            </ResponsiveContainer> */}
+            {/* <ResponsiveContainer height={500} width={filteredSleepState.length * 100}> */}
+              {/* <AreaChart data={filteredSleepState}>
+                      <Area 
+                      dataKey="duration"
+                      stroke="#8884d8"
+                      fill={(data) => {
+                        
+                        if(data.value === 0) return 'white'; 
+                        if(data.value === 1) return 'pink';
+                        if(data.value === 2) return 'red';
+                      }}
+                    />
+                <XAxis dataKey="duration" />
+                <YAxis dataKey="value" />
+                <Tooltip
+                  labelFormatter={(value) => {
+                    if(value === 0) return 'Awake';
+                    if(value === 1) return 'Light Sleep';
+                    if(value === 2) return 'Deep Sleep'; 
+                  }}
+                />
+              </AreaChart> */}
 
-            <AreaChart data={filteredSleepState}>
-              <Area 
-                dataKey="duration"
-                stroke="#8884d8"
-                fill={(data) => {
-                  if(data.value === 0) return '#555'; 
-                  if(data.value === 1) return '#abc';
-                  if(data.value === 2) return '#888';
-                }}
+              <BarChart
+                data={filteredSleepState}
+                // barCategoryGap={0}
+                // barGap={1}
+                height={500} width={filteredSleepState.length * 100}
+              >
+
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="duration" />
+              <YAxis 
+                // dataKey="value" 
+                tickFormatter={value => tickY(value)}
+                // type='category'  
               />
-              <XAxis dataKey="start" />
-              <YAxis dataKey="value" />
-              <Tooltip
-                labelFormatter={(value) => {
-                  if(value === 0) return 'Awake';
-                  if(value === 1) return 'Light Sleep';
-                  if(value === 2) return 'Deep Sleep'; 
-                }}
-              />
-            </AreaChart>
+              <Tooltip />
+              {/* <Legend /> */}
+
+              <Bar dataKey='value'>
+                {
+                  filteredSleepState &&
+                  filteredSleepState.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={fillColor(entry)} padding={entry.duration / 10}/>
+                  ))
+                }
+              </Bar>
+            </BarChart>
+            {/* </ResponsiveContainer> */}
+
             <p 
               onClick={() => setShowRawData(prev=> !prev)}
               className="show-raw-data"
