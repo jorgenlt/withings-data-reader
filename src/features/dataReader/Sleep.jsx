@@ -4,11 +4,15 @@ import { filterByDate } from '../../common/utils/queryFilters'
 import { addDays, format } from 'date-fns'
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { updateFilterDate } from "./dataReaderSlice"
-
-
-
-// import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { 
+  LineChart, 
+  Line, 
+  CartesianGrid, 
+  XAxis, 
+  YAxis,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts'
 
 const Sleep = () => {
   const [filteredSleepState, setFilteredSleepState] = useState(null);
@@ -53,16 +57,46 @@ const Sleep = () => {
       return '';
     }
   }
+
+  const tickX = value => {
+    return `${value / 60} min`
+  }
   
+  const barHeight = value => {
+    if (value === 0) {
+      return '150'; 
+    } else if (value === 1) {
+      return '100';
+    } else if (value === 2) {
+      return '50';
+    } else {
+      return '';
+    }
+  }
+
+  const CustomBar = props => {
+    const { x, y, width, height } = props;
+
+    return (
+      <svg width={width} height={height}>
+        <path 
+          d={`
+            M${x},${y}  
+            L${x},${y + height * 100}
+            L${x + width * 100},${y + height * 100}  
+            L${x + width * 100},${y}
+            Z
+          `}
+        
+        />
+      </svg>
+    )
+  }
 
   // Update chart when date changes or when sleepState is populated
   useEffect(() => {
     if (sleepState && filterDate) {
       const filteredSleepStateData = filterByDate(sleepState, filterDate);
-      // console.log('awake:', awake);
-      // console.log('light:', light);
-      // console.log('deep', deep);
-      console.log('filteredSleepStateData', filteredSleepStateData);
       setFilteredSleepState(filteredSleepStateData);
     }
   }, [filterDate, sleepState])
@@ -88,56 +122,52 @@ const Sleep = () => {
                 )
               }
             </div>
-            {/* <ResponsiveContainer height={500} width={filteredSleepState.length * 100}> */}
-              {/* <AreaChart data={filteredSleepState}>
-                      <Area 
-                      dataKey="duration"
-                      stroke="#8884d8"
-                      fill={(data) => {
-                        
-                        if(data.value === 0) return 'white'; 
-                        if(data.value === 1) return 'pink';
-                        if(data.value === 2) return 'red';
-                      }}
-                    />
-                <XAxis dataKey="duration" />
-                <YAxis dataKey="value" />
-                <Tooltip
-                  labelFormatter={(value) => {
-                    if(value === 0) return 'Awake';
-                    if(value === 1) return 'Light Sleep';
-                    if(value === 2) return 'Deep Sleep'; 
-                  }}
-                />
-              </AreaChart> */}
-
-              <BarChart
+            
+            <ResponsiveContainer width={1000} aspect={2.5}>
+              <LineChart 
+                // width={800} 
+                // height={400} 
                 data={filteredSleepState}
-                // barCategoryGap={0}
-                // barGap={1}
-                height={500} width={filteredSleepState.length * 100}
-              >
-
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="duration" />
-              <YAxis 
-                // dataKey="value" 
-                tickFormatter={value => tickY(value)}
-                // type='category'  
-              />
-              <Tooltip />
-              {/* <Legend /> */}
-
-              <Bar dataKey='value'>
-                {
-                  filteredSleepState &&
-                  filteredSleepState.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={fillColor(entry)} padding={entry.duration / 10}/>
-                  ))
-                }
-              </Bar>
-            </BarChart>
-            {/* </ResponsiveContainer> */}
+                margin={{ top: 0, right: 40, bottom: 0, left: 0 }} 
+                style={{ fontFamily: 'sans-serif' }}
+                >
+                <Line 
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke="#C736E7"
+                  strokeWidth={2}
+                  dot={{ stroke: '#C736E7', strokeWidth: 2 , background: '#C736E7'}}
+                  />
+                <CartesianGrid 
+                  stroke="#787E91" 
+                  strokeDasharray="1 1"
+                  />
+                <XAxis 
+                  dataKey={entry => entry.duration}
+                  tickMargin={10}
+                  angle={0}
+                  padding={{ left: 0 }}
+                  stroke="#787E91"
+                  tickFormatter={value => tickX(value)}
+                  />
+                <YAxis 
+                  unit={''}
+                  // domain={[70, 105]}
+                  // interval='preserveEnd'
+                  // scale={'log'}
+                  tickMargin={10}
+                  stroke="#787E91"
+                  tickFormatter={value => tickY(value)}
+                  />
+                <Tooltip 
+                  // itemStyle={}
+                  // wrapperStyle={}
+                  cursor={{ stroke: '#C736E7', strokeWidth: 1 }}
+                  contentStyle={{ backgroundColor: '#1214167a', border: 'none', borderRadius: '5px' }}
+                  // labelStyle={}
+                />
+              </LineChart>
+            </ResponsiveContainer>
 
             <p 
               onClick={() => setShowRawData(prev=> !prev)}
