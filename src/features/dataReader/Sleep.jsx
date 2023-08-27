@@ -97,6 +97,7 @@ const Sleep = () => {
   useEffect(() => {
     if (sleepState && filterDate) {
       const filteredSleepStateData = filterByDate(sleepState, filterDate);
+      console.log('filteredSleepStateData:', filteredSleepStateData);
       setFilteredSleepState(filteredSleepStateData);
     }
   }, [filterDate, sleepState])
