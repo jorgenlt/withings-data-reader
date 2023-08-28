@@ -97,10 +97,43 @@ const Sleep = () => {
   useEffect(() => {
     if (sleepState && filterDate) {
       const filteredSleepStateData = filterByDate(sleepState, filterDate);
-      console.log('filteredSleepStateData:', filteredSleepStateData);
-      setFilteredSleepState(filteredSleepStateData);
+
+      // get sleep start from sleep data later, different csv-file
+      let sleepStart = new Date("2023-07-29T02:40:00+02:00").getTime();
+
+      let prevTime = sleepStart;
+
+      // prepare data for chart
+      let data = [];
+
+      // loop durations
+      const durations = filteredSleepStateData[0].duration
+
+      durations.forEach((duration, i) => {
+        const start = format(new Date(prevTime), 'HH:mm:ss');
+        const end = format(new Date(prevTime + duration * 1000), 'HH:mm:ss');
+        const value = filteredSleepStateData[0].values[i];
+        
+        data.push({
+          start,
+          end,
+          duration,
+          value
+        });
+
+        prevTime += duration * 1000;
+      });
+
+      setFilteredSleepState(data);
     }
   }, [filterDate, sleepState])
+
+  useEffect(() => {
+    if (filteredSleepState) {
+      console.log('filteredSleepState:', filteredSleepState);
+    }
+  }, [filteredSleepState])
+  
 
   return (
     <div 
@@ -144,12 +177,12 @@ const Sleep = () => {
                   strokeDasharray="1 1"
                   />
                 <XAxis 
-                  dataKey={entry => entry.duration}
+                  dataKey={entry => entry.start}
                   tickMargin={10}
                   angle={0}
                   padding={{ left: 0 }}
                   stroke="#787E91"
-                  tickFormatter={value => tickX(value)}
+                  // tickFormatter={entry => tickX(value)}
                   />
                 <YAxis 
                   unit={''}

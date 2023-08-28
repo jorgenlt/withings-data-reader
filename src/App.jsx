@@ -92,58 +92,46 @@ function App() {
   // Populate sleep state
   useEffect(() => {
     if (rawTrackerSleepState) {
-      // // Process raw data
-      // let rawData = [...rawHrHr];
-      
-      // // Remove headers
-      // rawData.shift();
-      
-      // // Creating an array of objects
-      // const data = rawData.map(row => {
-      //   const start = row[0] ? format(new Date(row[0]), 'MMMM dd yyyy, h:mm aaa') : '';
-      //   const time = row[0] ? format(new Date(row[0]), 'h:mm:ss aaa') : '';
-      //   const value = row[2] ? parseInt(row[2].replace(/[[\]]/g, '')) : '';
-        
-      //   return {
-      //     start,
-      //     time,
-      //     value,
-      //     id: uuidv4()
-      //   }
-      // });
-
-
       const data = [];
 
-      // Skip header row
+      // sort all entries into groups with one group per day
+      // skip header row (let i = 1)
       for (let i = 1; i < rawTrackerSleepState.length; i++) {
-
-        const row = rawTrackerSleepState[i];
-
-        const start = format(new Date(row[0]), 'MMMM dd yyyy, h:mm:ss aaa'); 
-        const durations = JSON.parse(row[1]);
-        const values = JSON.parse(row[2]);
-
-        // Loop through parallel arrays
-        for (let j = 0; j < durations.length; j++) {
+        let item = rawTrackerSleepState[i];
+      
+        // Extract year, month and day directly from the string 
+        let [year, month, day] = item[0].substring(0, 10).split("-").map(x => +x);
+        let date = new Date(Date.UTC(year, month - 1, day)); // Months are 0-based
+      
+        // Parse the duration and value arrays
+        let duration = JSON.parse(item[1]);
+        let values = JSON.parse(item[2]);
+      
+        // Try to find the item in newArray
+        let foundItem = data.find(newItem => newItem.start.getTime() === date.getTime());
+      
+        if (foundItem) {
+          // If the item exists, append the duration and values
+          foundItem.duration = [...foundItem.duration, ...duration];
+          foundItem.values = [...foundItem.values, ...values];
+        } else {
+          // Else, create a new item
           data.push({
-            start,
-            duration: durations[j],
-            value: values[j],
+            start: date,
+            duration: duration,
+            values: values,
             id: uuidv4()
           });
         }
       }
-
-
-
-
       
       // Sort by date
-      const sortedData = data.sort((a, b) => new Date(a.start) - new Date(b.start))
-      // console.log(sortedData);
+      // const sortedData = data.sort((a, b) => new Date(a.start) - new Date(b.start))
+      // console.log('data:', data);
+      // console.log('sortedData', sortedData);
       // Updating hr in state
-      dispatch(updateSleepState(sortedData));
+      
+      dispatch(updateSleepState(data));
     }
   }, [rawTrackerSleepState]);
 
