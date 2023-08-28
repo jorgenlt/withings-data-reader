@@ -4,15 +4,6 @@ import { filterByDate } from '../../common/utils/queryFilters'
 import { addDays, format } from 'date-fns'
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { updateFilterDate } from "./dataReaderSlice"
-import { 
-  LineChart, 
-  Line, 
-  CartesianGrid, 
-  XAxis, 
-  YAxis,
-  Tooltip,
-  ResponsiveContainer
-} from 'recharts'
 
 const Sleep = () => {
   const [filteredSleepState, setFilteredSleepState] = useState(null);
@@ -35,64 +26,6 @@ const Sleep = () => {
     }
   }
 
-  const fillColor = obj => {
-    if (obj.value === 0) {
-      return '#e76f51'; 
-    } else if (obj.value === 1) {
-      return '#f4a261';
-    } else {
-      return '#e9c46a';
-    }
-  }
-
-  const tickY = value => {
-    // console.log(value);
-    if (value === 0) {
-      return 'awake'; 
-    } else if (value === 1) {
-      return 'light';
-    } else if (value === 2) {
-      return 'deep';
-    } else {
-      return '';
-    }
-  }
-
-  const tickX = value => {
-    return `${value / 60} min`
-  }
-  
-  const barHeight = value => {
-    if (value === 0) {
-      return '150'; 
-    } else if (value === 1) {
-      return '100';
-    } else if (value === 2) {
-      return '50';
-    } else {
-      return '';
-    }
-  }
-
-  const CustomBar = props => {
-    const { x, y, width, height } = props;
-
-    return (
-      <svg width={width} height={height}>
-        <path 
-          d={`
-            M${x},${y}  
-            L${x},${y + height * 100}
-            L${x + width * 100},${y + height * 100}  
-            L${x + width * 100},${y}
-            Z
-          `}
-        
-        />
-      </svg>
-    )
-  }
-
   // Update chart when date changes or when sleepState is populated
   useEffect(() => {
     if (sleepState && filterDate) {
@@ -112,7 +45,15 @@ const Sleep = () => {
       durations.forEach((duration, i) => {
         const start = format(new Date(prevTime), 'HH:mm:ss');
         const end = format(new Date(prevTime + duration * 1000), 'HH:mm:ss');
-        const value = filteredSleepStateData[0].values[i];
+        
+        let value;
+        if (filteredSleepStateData[0].values[i] === 2) {
+          value = 300;
+        } else if (filteredSleepStateData[0].values[i] === 1) {
+          value = 200;
+        } else {
+          value = 100;
+        }
         
         data.push({
           start,
@@ -131,8 +72,9 @@ const Sleep = () => {
   useEffect(() => {
     if (filteredSleepState) {
       console.log('filteredSleepState:', filteredSleepState);
+      console.log('sleepState', sleepState);
     }
-  }, [filteredSleepState])
+  }, [filteredSleepState, sleepState])
   
 
   return (
@@ -156,52 +98,6 @@ const Sleep = () => {
                 )
               }
             </div>
-            
-            <ResponsiveContainer width={1000} aspect={2.5}>
-              <LineChart 
-                // width={800} 
-                // height={400} 
-                data={filteredSleepState}
-                margin={{ top: 0, right: 40, bottom: 0, left: 0 }} 
-                style={{ fontFamily: 'sans-serif' }}
-                >
-                <Line 
-                  type="monotone" 
-                  dataKey="value" 
-                  stroke="#C736E7"
-                  strokeWidth={2}
-                  dot={{ stroke: '#C736E7', strokeWidth: 2 , background: '#C736E7'}}
-                  />
-                <CartesianGrid 
-                  stroke="#787E91" 
-                  strokeDasharray="1 1"
-                  />
-                <XAxis 
-                  dataKey={entry => entry.start}
-                  tickMargin={10}
-                  angle={0}
-                  padding={{ left: 0 }}
-                  stroke="#787E91"
-                  // tickFormatter={entry => tickX(value)}
-                  />
-                <YAxis 
-                  unit={''}
-                  // domain={[70, 105]}
-                  // interval='preserveEnd'
-                  // scale={'log'}
-                  tickMargin={10}
-                  stroke="#787E91"
-                  tickFormatter={value => tickY(value)}
-                  />
-                <Tooltip 
-                  // itemStyle={}
-                  // wrapperStyle={}
-                  cursor={{ stroke: '#C736E7', strokeWidth: 1 }}
-                  contentStyle={{ backgroundColor: '#1214167a', border: 'none', borderRadius: '5px' }}
-                  // labelStyle={}
-                />
-              </LineChart>
-            </ResponsiveContainer>
 
             <p 
               onClick={() => setShowRawData(prev=> !prev)}
@@ -228,9 +124,9 @@ const Sleep = () => {
                       sleepState.map(record => {
                         return (
                           <tr key={record.id}>
-                            <td>{record.start}</td>
-                            <td>{record.duration}</td>
-                            <td>{`${record.value}`}</td>
+                            <td>{record.id}</td>
+                            <td>{record.id}</td>
+                            <td>{`${record.id}`}</td>
                           </tr>
                         )
                       })
