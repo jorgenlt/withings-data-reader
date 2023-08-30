@@ -79,6 +79,9 @@ export const dataReader = createSlice({
     updateSleepState: (state, action) => {
       state.sleepState = action.payload;
     },
+    updateSleep: (state, action) => {
+      state.sleep = action.payload;
+    },
     setDemoFiles: state => {
       state.files = state.demoFiles;
     }
@@ -113,6 +116,7 @@ export const {
   updateSpo2,
   updateHr,
   updateSleepState,
+  updateSleep,
   setDemoFiles
 } = dataReader.actions
 

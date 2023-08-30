@@ -4,13 +4,28 @@ import { filterByDate } from '../../common/utils/queryFilters'
 import { addDays, format } from 'date-fns'
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { updateFilterDate } from "./dataReaderSlice"
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
+import moment from 'moment';
 
 const Sleep = () => {
   const [filteredSleepState, setFilteredSleepState] = useState(null);
+  const [filteredSleep, setFilteredSleep] = useState(null);
   const [showRawData, setShowRawData] = useState(false);
 
   // Get data from Redux
-  const { filterDate, navIsOpen, sleepState } = useSelector(state => state.dataReader);
+  const { 
+    filterDate, 
+    navIsOpen, 
+    sleepState, 
+    sleep 
+  } = useSelector(state => state.dataReader);
 
   // Initializing hooks
   const dispatch = useDispatch();
@@ -28,11 +43,18 @@ const Sleep = () => {
 
   // Update chart when date changes or when sleepState is populated
   useEffect(() => {
-    if (sleepState && filterDate) {
+    if (sleepState && filterDate && sleep) {
       const filteredSleepStateData = filterByDate(sleepState, filterDate);
+      const filteredSleepData = filterByDate(sleep, filterDate);
+
+      if (filteredSleepData) {
+        setFilteredSleep(filteredSleepData[0]);
+      }
 
       // get sleep start from sleep data later, different csv-file
-      let sleepStart = new Date("2023-07-29T02:40:00+02:00").getTime();
+      // let sleepStart = new Date("2023-07-29T02:40:00+02:00").getTime();
+      let sleepStart = filteredSleepData[0] ? filteredSleepData[0].start : 1693174080000; 
+      // console.log('sleepStart', sleepStart);
 
       let prevTime = sleepStart;
 
@@ -40,71 +62,127 @@ const Sleep = () => {
       let data = [];
 
       // loop durations
-      const durations = filteredSleepStateData[0].duration
+      const durations = filteredSleepStateData[0]?.duration;
 
-      durations.forEach((duration, i) => {
-        const start = format(new Date(prevTime), 'HH:mm:ss');
-        const end = format(new Date(prevTime + duration * 1000), 'HH:mm:ss');
-        
-        let value;
-        if (filteredSleepStateData[0].values[i] === 2) {
-          value = 300;
-        } else if (filteredSleepStateData[0].values[i] === 1) {
-          value = 200;
-        } else {
-          value = 100;
-        }
-        
-        data.push({
-          start,
-          end,
-          duration,
-          value
+      if (durations) {
+        durations.forEach((duration, i) => {
+          const start = prevTime;
+          const end = prevTime + duration * 1000;
+          // const start = format(new Date(prevTime), 'HH:mm');
+          // const end = format(new Date(prevTime + duration * 1000), 'HH:mm');
+          
+          let value;
+          if (filteredSleepStateData[0].values[i] === 2) {
+            value = 1;
+          } else if (filteredSleepStateData[0].values[i] === 1) {
+            value = 2;
+          } else {
+            value = 3;
+          }
+          
+          data.push({
+            start,
+            end,
+            duration,
+            sleepState: value
+          });
+  
+          prevTime += duration * 1000;
         });
+        setFilteredSleepState(data);
+      }
 
-        prevTime += duration * 1000;
-      });
-
-      setFilteredSleepState(data);
     }
-  }, [filterDate, sleepState])
+  }, [filterDate, sleepState, sleep])
 
   useEffect(() => {
     if (filteredSleepState) {
-      console.log('filteredSleepState:', filteredSleepState);
-      console.log('sleepState', sleepState);
+      // console.log('filteredSleepState:', filteredSleepState);
+      // console.log('sleepState', sleepState);
     }
+
+    // if (filteredSleep) {
+      // console.log('filteredSleep', filteredSleep);
+    // }
   }, [filteredSleepState, sleepState])
-  
+
+  const formatTickY = value => {
+    if (value === 3) {
+      return 'Awake';
+    } else if (value === 2) {
+      return 'Light sleep';
+    } else if (value === 1) {
+      return 'Deep sleep';
+    } else {
+      return '';
+    }
+  }
 
   return (
     <div 
       className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
     >
       <h1>Sleep State</h1>
-      {
-        filteredSleepState &&
         <>
           <div className='chart-wrapper'>
             <div className='chart--date'>
               <div className="chart--date-icon" onClick={() => handleNavigateDate('prev')}><FaAngleLeft /></div>
               <div className="chart--date-icon" onClick={() => handleNavigateDate('right')}><FaAngleRight /></div>
-              <h3>{format(filterDate, 'MMMM d y')}</h3>
+              {filterDate && <h3>{format(filterDate, 'MMMM d y')}</h3>}
               {
-                filteredSleepState?.[0]?.start ? (
+                filteredSleepState?.[0]?.start && filteredSleep?.start ? (
                   <p></p>
-                ) : (
+                  ) : (
                   <p>No data on chosen date.</p>
                 )
               }
             </div>
+            {
+              filteredSleepState && filteredSleep &&
+              <>
+                <AreaChart
+                  width={filteredSleepState.length * 20} 
+                  height={300} 
+                  data={filteredSleepState}
+                  margin={{
+                    top: 10,
+                    right: 30,
+                    left: 0,
+                    bottom: 0
+                  }}
+                >
+                  {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                  <XAxis 
+                    dataKey="start"
+                    type='number'
+                    domain={[filteredSleep.start, filteredSleep.end]}
+                    scale="time"
+                    tickFormatter={time => {
+                      console.log('time:', time);
+                      return format(new Date(time), 'HH:mm')
+                    }}
+                  />
+                  <YAxis 
+                    tickCount={4}
+                    tickFormatter={formatTickY}
+                  />
+                  <Tooltip />
+                  <Area
+                    type="step"
+                    dataKey="sleepState"
+                    stroke="#000"
+                    fill="gray"
+                  />
+                </AreaChart>
 
-            <p 
-              onClick={() => setShowRawData(prev=> !prev)}
-              className="show-raw-data"
-            >
-              Raw data
-            </p>
+                <p 
+                onClick={() => setShowRawData(prev=> !prev)}
+                className="show-raw-data"
+                >
+                  Raw data
+                </p>
+              </>
+            }
           </div>
 
           {
@@ -137,7 +215,6 @@ const Sleep = () => {
             </div>
           }
         </>
-      }
     </div>
   )
 }

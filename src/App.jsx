@@ -4,7 +4,8 @@ import {
   updateHr,
   updateSpo2,
   updateFilterDate,
-  updateSleepState
+  updateSleepState,
+  updateSleep
 } from './features/dataReader/dataReaderSlice'
 import Spo2 from './features/dataReader/Spo2'
 import HeartRate from './features/dataReader/HeartRate'
@@ -19,7 +20,7 @@ import format from 'date-fns/format'
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-  const { rawSpo2AutoSpo2, rawHrHr, rawTrackerSleepState } = useSelector(state => state.dataReader.files);
+  const { rawSpo2AutoSpo2, rawHrHr, rawTrackerSleepState, sleep } = useSelector(state => state.dataReader.files);
   // console.log(rawTrackerSleepState);
 
   const dispatch = useDispatch();
@@ -101,14 +102,14 @@ function App() {
       
         // Extract year, month and day directly from the string 
         let [year, month, day] = item[0].substring(0, 10).split("-").map(x => +x);
-        let date = new Date(Date.UTC(year, month - 1, day)); // Months are 0-based
+        let date = new Date(Date.UTC(year, month - 1, day)).getTime(); // Months are 0-based
       
         // Parse the duration and value arrays
         let duration = JSON.parse(item[1]);
         let values = JSON.parse(item[2]);
       
         // Try to find the item in newArray
-        let foundItem = data.find(newItem => newItem.start.getTime() === date.getTime());
+        let foundItem = data.find(newItem => newItem.start === date);
       
         if (foundItem) {
           // If the item exists, append the duration and values
@@ -134,6 +135,50 @@ function App() {
       dispatch(updateSleepState(data));
     }
   }, [rawTrackerSleepState]);
+
+  // Populate sleep
+  useEffect(() => {
+    if (sleep) {
+      // Process raw data
+      let rawData = [...sleep];
+
+      // Remove headers
+      rawData.shift();
+      
+      // Creating an array of objects
+      const data = rawData.map(row => {
+        const start = new Date(row[0]).getTime();
+        const end = new Date(row[1]).getTime();
+        const light = Number(row[2]);
+        const deep = Number(row[3]);
+        const rem = Number(row[4]);
+        const awake = Number(row[5]);
+        const avgHr = Number(row[11]);
+        const hrMin = Number(row[12]);
+        const hrMax = Number(row[13]);
+        
+        return {
+          id: uuidv4(),
+          start,
+          end,
+          light,
+          deep,
+          rem,
+          awake,
+          avgHr,
+          hrMin,
+          hrMax
+        }
+      });
+
+      // Sort by date
+      const sortedData = data.sort((a, b) => a.start - b.start);
+      
+      // // Updating sleep in state
+      dispatch(updateSleep(sortedData));
+    }
+  }, [sleep])
+  
 
   return (
     <Router>

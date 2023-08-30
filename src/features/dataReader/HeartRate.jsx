@@ -10,7 +10,6 @@ import {
   XAxis, 
   YAxis,
   Tooltip,
-  ResponsiveContainer
 } from 'recharts'
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6"
 import { updateFilterDate } from "./dataReaderSlice"
