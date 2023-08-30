@@ -12,7 +12,6 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import moment from 'moment';
 
 const Sleep = () => {
   const [filteredSleepState, setFilteredSleepState] = useState(null);
@@ -118,6 +117,21 @@ const Sleep = () => {
     }
   }
 
+  const formatTooltip = (value, name) => {
+    let newValue;
+    if (value === 3) {
+      newValue = 'Awake';
+    } else if (value === 2) {
+      newValue = 'Light sleep';
+    } else if (value === 1) {
+      newValue = 'Deep sleep';
+    } else {
+      newValue = '';
+    }
+
+    return [newValue, '']
+  }
+
   return (
     <div 
       className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
@@ -145,9 +159,9 @@ const Sleep = () => {
                   height={300} 
                   data={filteredSleepState}
                   margin={{
-                    top: 10,
+                    top: 50,
                     right: 30,
-                    left: 0,
+                    left: 20,
                     bottom: 0
                   }}
                 >
@@ -157,21 +171,23 @@ const Sleep = () => {
                     type='number'
                     domain={[filteredSleep.start, filteredSleep.end]}
                     scale="time"
-                    tickFormatter={time => {
-                      console.log('time:', time);
-                      return format(new Date(time), 'HH:mm')
-                    }}
+                    tickFormatter={time => format(new Date(time), 'HH:mm')}
+                    tick={{fill: 'snow'}}
                   />
                   <YAxis 
                     tickCount={4}
                     tickFormatter={formatTickY}
+                    tickMargin={10}
+                    tick={{fill: 'snow'}}
                   />
-                  <Tooltip />
+                  <Tooltip 
+                    formatter={formatTooltip}
+                  />
                   <Area
                     type="step"
                     dataKey="sleepState"
-                    stroke="#000"
-                    fill="gray"
+                    stroke=""
+                    fill="pink"
                   />
                 </AreaChart>
 
