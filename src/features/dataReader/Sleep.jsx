@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import { filterByDate } from '../../common/utils/queryFilters'
-import { addDays, format } from 'date-fns'
+import { addDays, format, formatDistance, formatDistanceStrict, formatDuration } from 'date-fns'
+import { formatSeconds } from '../../common/utils/dateFormat'
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { updateFilterDate } from "./dataReaderSlice"
 import {
@@ -100,9 +101,9 @@ const Sleep = () => {
       // console.log('sleepState', sleepState);
     }
 
-    // if (filteredSleep) {
-      // console.log('filteredSleep', filteredSleep);
-    // }
+    if (filteredSleep) {
+      console.log('filteredSleep', filteredSleep);
+    }
   }, [filteredSleepState, sleepState])
 
   const unixToHours = unix => format(new Date(unix), 'HH:mm');
@@ -129,8 +130,6 @@ const Sleep = () => {
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      console.log('payload: ', payload[0]);
-
       const { duration, sleepState, start, end } = payload[0].payload;
 
       return (
@@ -168,9 +167,18 @@ const Sleep = () => {
               filteredSleepState && filteredSleep &&
               <>
                 <div className="sleep-stats">
-                  <p>some stat</p>
-                  <p>some stat</p>
-                  <p>some stat</p>
+                  <p>
+                  </p>
+                  <p>
+                    You got <strong>{formatDistanceStrict(new Date(filteredSleep.start), new Date(filteredSleep.end), { unit: 'hour' })}</strong> of 
+                    sleep last night. <strong>{formatSeconds(filteredSleep.deep)}</strong> of this was deep sleep, <strong>{formatSeconds(filteredSleep.light)}</strong> was light 
+                    sleep and you were awake for <strong>{formatSeconds(filteredSleep.awake)}</strong>. You fell asleep at <strong>{unixToHours(filteredSleep.start)}</strong>, 
+                    and got up at <strong>{unixToHours(filteredSleep.end)}</strong>.
+                  </p>
+                  <p>
+                    Your average heart rate during the night was <strong>{filteredSleep.avgHr}</strong> bpm. The highest heart rate measured was <strong>{filteredSleep.hrMax}</strong> bpm 
+                    and the lowest was <strong>{filteredSleep.hrMin}</strong> bpm.
+                  </p>
                 </div>
                 <AreaChart
                   width={filteredSleepState.length * 20} 
@@ -183,7 +191,10 @@ const Sleep = () => {
                     bottom: 0
                   }}
                 >
-                  {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                  <CartesianGrid 
+                    strokeDasharray="3" 
+                    vertical={false}
+                  />
                   <XAxis 
                     dataKey="start"
                     type='number'
@@ -205,10 +216,11 @@ const Sleep = () => {
                     cursor={{ stroke: '', strokeWidth: 2 }}
                   />
                   <Area
-                    type="step"
+                    type="stepAfter"
                     dataKey="sleepState"
                     stroke=""
                     fill="#C736E7"
+                    fillOpacity={0.6}
                   />
                 </AreaChart>
 
