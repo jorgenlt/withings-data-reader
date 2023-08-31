@@ -66,3 +66,25 @@
     background-color: $blue-opacity;
   }
 }
+
+.custom-tooltip {
+  background-color: $black-opacity;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  p {
+    font-size: 14px;
+    margin: 0;
+    color: $white;
+  }
+
+  .sleep-state {
+    font-size:16px;
+    font-weight: 500;
+    color: $pink;
+  }
+}

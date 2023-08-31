@@ -105,32 +105,45 @@ const Sleep = () => {
     // }
   }, [filteredSleepState, sleepState])
 
-  const formatTickY = value => {
-    if (value === 3) {
-      return 'Awake';
-    } else if (value === 2) {
-      return 'Light sleep';
-    } else if (value === 1) {
-      return 'Deep sleep';
-    } else {
-      return '';
-    }
-  }
+  const unixToHours = unix => format(new Date(unix), 'HH:mm');
 
-  const formatTooltip = (value, name) => {
-    let newValue;
-    if (value === 3) {
-      newValue = 'Awake';
-    } else if (value === 2) {
-      newValue = 'Light sleep';
-    } else if (value === 1) {
-      newValue = 'Deep sleep';
-    } else {
-      newValue = '';
+  const sleepStateToText = value => {
+    switch(value) {
+        case 3:
+            return 'Awake';
+        case 2:
+            return 'Light sleep';
+        case 1:
+            return 'Deep sleep';
+        default:
+            return '';
     }
+}
 
-    return [newValue, '']
-  }
+  const formatTickY = value => sleepStateToText(value);
+
+  // const formatTooltip = (value, name) => {
+  //   const newValue = sleepStateToText(value);
+  //   return [newValue, ''];
+  // }
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      console.log('payload: ', payload[0]);
+
+      const { duration, sleepState, start, end } = payload[0].payload;
+
+      return (
+        <div className="custom-tooltip">
+          <p className="sleep-state">{sleepStateToText(sleepState)}</p>
+          <p className="">From {unixToHours(start)} to {unixToHours(end)}</p>
+          <p className="">{duration / 60} minutes</p>
+        </div>
+      );
+    }
+  
+    return null;
+  };
 
   return (
     <div 
@@ -154,6 +167,11 @@ const Sleep = () => {
             {
               filteredSleepState && filteredSleep &&
               <>
+                <div className="sleep-stats">
+                  <p>some stat</p>
+                  <p>some stat</p>
+                  <p>some stat</p>
+                </div>
                 <AreaChart
                   width={filteredSleepState.length * 20} 
                   height={300} 
@@ -173,21 +191,24 @@ const Sleep = () => {
                     scale="time"
                     tickFormatter={time => format(new Date(time), 'HH:mm')}
                     tick={{fill: 'snow'}}
+                    stroke="#787E91"
                   />
                   <YAxis 
                     tickCount={4}
                     tickFormatter={formatTickY}
                     tickMargin={10}
                     tick={{fill: 'snow'}}
+                    stroke="#787E91"
                   />
-                  <Tooltip 
-                    formatter={formatTooltip}
+                  <Tooltip
+                    content={<CustomTooltip />}
+                    cursor={{ stroke: '', strokeWidth: 2 }}
                   />
                   <Area
                     type="step"
                     dataKey="sleepState"
                     stroke=""
-                    fill="pink"
+                    fill="#C736E7"
                   />
                 </AreaChart>
 

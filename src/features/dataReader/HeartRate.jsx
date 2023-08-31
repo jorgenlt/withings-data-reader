@@ -84,7 +84,7 @@ const HeartRate = () => {
                 stroke="#787E91" 
                 strokeDasharray="5 5"
                 />
-              <XAxis 
+              <XAxis
                 dataKey="time" 
                 tickMargin={10}
                 angle={0}
