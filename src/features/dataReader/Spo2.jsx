@@ -69,8 +69,6 @@ const Spo2 = () => {
             </div>
             <ResponsiveContainer width={1000} aspect={2.5}>
               <LineChart 
-                // width={800} 
-                // height={400} 
                 data={filteredSpo2}
                 margin={{ top: 0, right: 40, bottom: 0, left: 0 }} 
                 style={{ fontFamily: 'sans-serif' }}
