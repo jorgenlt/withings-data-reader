@@ -7,21 +7,26 @@
 }
 
 table {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   padding: 20px;
   border-collapse: collapse;
   overflow-y: scroll;
   max-height: 400px;
-  width: fit-content;
-  display:block;
+  width: 100%;
+  display: block;
 }
 
 thead {
   color: $white;
 }
 
-td, th {
+td,
+th {
   border-bottom: 1px solid $dark-gray;
   text-align: left;
   padding: 8px;
+}
+
+.raw-data-tr {
+  cursor: pointer;
 }

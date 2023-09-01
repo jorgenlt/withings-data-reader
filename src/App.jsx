@@ -6,7 +6,7 @@ import {
   updateFilterDate,
   updateSleepState,
   updateSleep,
-  updateWeight
+  updateWeight,
 } from "./features/dataReader/dataReaderSlice";
 import Spo2 from "./features/dataReader/Spo2";
 import HeartRate from "./features/dataReader/HeartRate";
@@ -17,7 +17,6 @@ import Weight from "./features/dataReader/Weight";
 import Instructions from "./features/dataReader/Instructions";
 import Sleep from "./features/dataReader/Sleep";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import format from "date-fns/format";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
@@ -38,32 +37,24 @@ function App() {
 
       // Creating an array of objects
       const data = rawData.map((row) => {
-        const start = row[0]
-          ? format(new Date(row[0]), "MMMM d yyyy, h:mm aaa")
-          : "";
-        const time = row[0] ? format(new Date(row[0]), "h:mm aaa") : "";
+        const start = row[0] ? new Date(row[0]).getTime() : "";
         const value = row[2] ? parseInt(row[2].replace(/[[\]]/g, "")) : "";
 
         return {
           start,
-          time,
           value,
           id: uuidv4(),
         };
       });
 
       // Sort by date
-      const sortedData = data.sort(
-        (a, b) => new Date(a.start) - new Date(b.start)
-      );
+      const sortedData = data.sort((a, b) => a.start - b.start);
 
       // Updating spo2 in state
       dispatch(updateSpo2(sortedData));
 
       // Set most recent date
-      dispatch(
-        updateFilterDate(new Date(sortedData[sortedData.length - 1].start))
-      );
+      dispatch(updateFilterDate(sortedData[sortedData.length - 1].start));
     }
   }, [rawSpo2AutoSpo2]);
 
@@ -73,29 +64,23 @@ function App() {
       // Process raw data
       let rawData = [...rawHrHr];
 
-      // Remove headers
+      // Remove headersResponsiveContainer
       rawData.shift();
 
       // Creating an array of objects
       const data = rawData.map((row) => {
-        const start = row[0]
-          ? format(new Date(row[0]), "MMMM dd yyyy, h:mm aaa")
-          : "";
-        const time = row[0] ? format(new Date(row[0]), "h:mm:ss aaa") : "";
+        const start = row[0] ? new Date(row[0]).getTime() : "";
         const value = row[2] ? parseInt(row[2].replace(/[[\]]/g, "")) : "";
 
         return {
           start,
-          time,
           value,
           id: uuidv4(),
         };
       });
 
       // Sort by date
-      const sortedData = data.sort(
-        (a, b) => new Date(a.start) - new Date(b.start)
-      );
+      const sortedData = data.sort((a, b) => a.start - b.start);
 
       // Updating hr in state
       dispatch(updateHr(sortedData));

@@ -1,8 +1,9 @@
 .chart-wrapper {
   padding: 20px;
   overflow-x: auto;
-  min-width: 700px;
-  max-width: 80vw;
+  width: fit-content;
+  min-width: 300px;
+  max-width: calc(100vw - 380px);
   background-color: $black-opacity;
   border-radius: 10px;
   color: $dark-gray;
@@ -74,9 +75,10 @@
     color: $white;
   }
 
-  .sleep-state {
-    font-size:16px;
+  h3 {
+    font-size: 16px;
     font-weight: 500;
     color: $pink;
+    margin: 0;
   }
 }

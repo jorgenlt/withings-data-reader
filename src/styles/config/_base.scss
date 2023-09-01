@@ -1,10 +1,12 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 300;
   color: $white;
   background-image: url(gradient-bg.jpg);
@@ -18,13 +20,16 @@ body {
 }
 
 .app-wrapper {
-  // margin-left: 60px;
+  width: 100%;
   transition: all 100ms linear;
   overflow-x: hidden;
   padding-right: 20px;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: 300;
   color: $white;
 }
@@ -36,7 +41,7 @@ button {
   border-radius: 3px;
   padding: 5px 0px;
   width: 120px;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 button:hover {
@@ -45,7 +50,7 @@ button:hover {
   color: $white;
 }
 
-input[type=file] {
+input[type="file"] {
   padding: 5px 5px;
 }
 
@@ -94,7 +99,6 @@ table::-webkit-scrollbar-thumb:hover,
 .chart-wrapper::-webkit-scrollbar-thumb:hover {
   background: $scrollbar-thumb-active-hover-bg;
 }
-
 
 /**
 * ----------------------------------------
