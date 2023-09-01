@@ -29,22 +29,6 @@ h1, h2, h3, h4 {
   color: $white;
 }
 
-table {
-  font-family: 'Roboto', sans-serif;
-  padding: 20px;
-  border-collapse: collapse;
-  overflow-y: scroll;
-  max-height: 400px;
-  width: fit-content;
-  display:block;
-}
-
-td, th {
-  border-bottom: 1px solid $dark-gray;
-  text-align: left;
-  padding: 8px;
-}
-
 button {
   background-color: $white;
   color: $blue;
