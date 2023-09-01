@@ -82,6 +82,9 @@ export const dataReader = createSlice({
     updateSleep: (state, action) => {
       state.sleep = action.payload;
     },
+    updateWeight: (state, action) => {
+      state.weight = action.payload;
+    },
     setDemoFiles: state => {
       state.files = state.demoFiles;
     }
@@ -117,7 +120,8 @@ export const {
   updateHr,
   updateSleepState,
   updateSleep,
-  setDemoFiles
+  setDemoFiles,
+  updateWeight
 } = dataReader.actions
 
 export default dataReader.reducer
