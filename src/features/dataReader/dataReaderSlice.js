@@ -99,6 +99,9 @@ export const dataReader = createSlice({
         files.forEach((file) => {
           state.files[file.filename] = file.data.data;
         });
+
+        // Alert user
+        alert("Files uploaded successfully.");
       })
       .addCase(uploadFilesThunk.rejected, (state) => {
         state.status = "failed";

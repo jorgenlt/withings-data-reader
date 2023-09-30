@@ -145,7 +145,7 @@ const Sleep = () => {
       style={navIsOpen ? { marginLeft: "320px" } : { marginLeft: "60px" }}
     >
       <h1>Sleep State</h1>
-      {filteredSleepState && (
+      {filterDate && (
         <>
           <div className="chart-wrapper">
             <ChartDateNav />

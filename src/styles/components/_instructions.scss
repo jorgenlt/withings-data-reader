@@ -1,0 +1,26 @@
+.screenshots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.screenshot {
+  position: relative;
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 99;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $blue;
+    font-weight: 500;
+    font-size: 20px;
+  }
+}

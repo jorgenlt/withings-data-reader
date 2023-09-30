@@ -1,8 +1,13 @@
 .home {
+  position: relative;
+  overflow-y: hidden;
+  max-width: 800px;
+
   a, span {
     cursor: pointer;
     color: $pink;
     text-decoration: none;
+    font-weight: 400;
 
     &:hover {
       text-decoration: underline;
