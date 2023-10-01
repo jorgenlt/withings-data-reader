@@ -63,7 +63,7 @@ const Spo2 = () => {
       <h1>
         Blood Oxygen Saturation (SpO<sub>2</sub>)
       </h1>
-      {filteredSpo2 && (
+      {filterDate && (
         <>
           <div className="chart-wrapper">
             <ChartDateNav />
@@ -77,7 +77,7 @@ const Spo2 = () => {
               )}
             </div>
             <LineChart
-              width={filteredSpo2.length * 30}
+              width={filteredSpo2 ? filteredSpo2.length * 30 : null}
               height={500}
               data={filteredSpo2}
               margin={{ top: 0, right: 40, bottom: 0, left: 0 }}

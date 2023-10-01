@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ChartDateNav from "./ChartDateNav";
 import { filterByDate } from "../../common/utils/queryFilters";
-import { format, formatDistanceStrict } from "date-fns";
+import { format } from "date-fns";
 import { formatSeconds, unixToHours } from "../../common/utils/dateFormat";
 import { updateFilterDate } from "./dataReaderSlice";
 import {
@@ -158,16 +158,12 @@ const Sleep = () => {
             </div>
             {filteredSleepState && filteredSleep && (
               <>
-                <div className="sleep-stats">
+                <div className="chart-stats">
                   <p></p>
                   <p>
                     You got{" "}
                     <strong>
-                      {formatDistanceStrict(
-                        new Date(filteredSleep.start),
-                        new Date(filteredSleep.end),
-                        { unit: "hour" }
-                      )}
+                      {formatSeconds((filteredSleep.end - filteredSleep.start) / 1000)}
                     </strong>{" "}
                     of sleep.{" "}
                     <strong>{formatSeconds(filteredSleep.deep)}</strong> of this

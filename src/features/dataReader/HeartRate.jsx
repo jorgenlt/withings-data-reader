@@ -61,7 +61,7 @@ const HeartRate = () => {
       style={navIsOpen ? { marginLeft: "320px" } : { marginLeft: "60px" }}
     >
       <h1>Heart Rate</h1>
-      {filteredHr && (
+      {filterDate && (
         <>
           <div className="chart-wrapper">
             <ChartDateNav />
@@ -75,7 +75,7 @@ const HeartRate = () => {
               )}
             </div>
             <LineChart
-              width={filteredHr.length * 30}
+              width={filteredHr ? filteredHr.length * 30 : null}
               height={500}
               data={filteredHr}
               margin={{ top: 20, right: 40, bottom: 20, left: 20 }}

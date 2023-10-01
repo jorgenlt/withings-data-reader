@@ -14,6 +14,16 @@
   }
 }
 
+.chart-stats {
+  margin-top: 40px;
+  max-width: 600px;
+
+  p {
+    margin-bottom: 10px;
+    color: $white;
+  }
+}
+
 .raw-data {
   margin: 20px 0px;
   background-color: $black-opacity;

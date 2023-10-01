@@ -4,11 +4,14 @@ export const formatSeconds = (seconds) => {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
 
+  let hourString = hours === 1 ? "hour" : "hours";
+  let minuteString = minutes === 1 ? "minute" : "minutes";
+
   if (hours === 0) {
-    return `${minutes} minutes`;
+    return `${minutes} ${minuteString}`;
   }
 
-  return `${hours} hours and ${minutes} minutes`;
+  return `${hours} ${hourString} and ${minutes} ${minuteString}`;
 };
 
 export const unixToHours = (unix) => format(new Date(unix), "HH:mm");
