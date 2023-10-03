@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   updateFilterDate,
   deleteStoredData,
@@ -10,8 +10,6 @@ import {
 } from "../features/dataReader/dataReaderSlice";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-import { useNavigate } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import {
   HiChevronLeft,
@@ -51,12 +49,15 @@ const Nav = () => {
 
   const handleFileUpload = (e) => {
     dispatch(uploadFilesThunk(e.target.files));
+    navigate("/user");
   };
 
   const handleDeleteData = () => {
     if (confirm("Are you sure you want to delete all data?") == true) {
       dispatch(deleteStoredData());
       setTimeout(() => {
+        alert("All data deleted.")
+        navigate("/");
         window.location.reload();
       }, 500);
     }
@@ -65,6 +66,7 @@ const Nav = () => {
   const handleDemoFiles = () => {
     dispatch(setDemoFiles());
     alert("Demo files loaded.");
+    navigate("/user");
   };
 
   // Initialize ref for CSSTransition
