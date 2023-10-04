@@ -16,7 +16,7 @@ import User from "./features/dataReader/User";
 import Weight from "./features/dataReader/Weight";
 import Instructions from "./features/dataReader/Instructions";
 import Sleep from "./features/dataReader/Sleep";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
