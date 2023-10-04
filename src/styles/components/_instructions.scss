@@ -1,11 +1,16 @@
+.instructions {
+  padding-bottom: 40px;
+}
+
 .screenshots {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 40px;
 }
 
 .screenshot {
   position: relative;
+
   span {
     display: flex;
     justify-content: center;
@@ -22,5 +27,9 @@
     background-color: $blue;
     font-weight: 500;
     font-size: 20px;
+  }
+
+  figcaption {
+    width: 300px;
   }
 }

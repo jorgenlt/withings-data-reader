@@ -1,15 +1,12 @@
-import { useSelector } from 'react-redux'
-import { calculateAge } from '../../common/utils/calculateAge'
-import { v4 as uuid } from 'uuid'
+import { useSelector } from "react-redux";
+import { calculateAge } from "../../common/utils/calculateAge";
+import { v4 as uuid } from "uuid";
 
 const User = () => {
-  const { navIsOpen } = useSelector(state => state.dataReader);
-  const { 
-    user, 
-    weight, 
-    height,
-    account
-  } = useSelector(state => state.dataReader.files);
+  const { navIsOpen } = useSelector((state) => state.dataReader);
+  const { user, weight, height, account } = useSelector(
+    (state) => state.dataReader.files
+  );
 
   const userData = {
     firstName: user?.[1]?.[0],
@@ -20,8 +17,8 @@ const User = () => {
     weightUnit: weight?.[0]?.[1],
     userHeight: height?.[1]?.[1],
     heightUnit: height?.[0]?.[1],
-    email: account?.[1][0]
-  }
+    email: account?.[1][0],
+  };
 
   const {
     firstName,
@@ -32,49 +29,65 @@ const User = () => {
     weightUnit,
     userHeight,
     heightUnit,
-    email
-  } = userData
+    email,
+  } = userData;
 
   return (
-    <div 
-      className='app-wrapper' style={navIsOpen ? { marginLeft: '320px' } : { marginLeft: '60px' }}
+    <div
+      className="app-wrapper"
+      style={navIsOpen ? { marginLeft: "320px" } : { marginLeft: "60px" }}
     >
       <h1>User Information</h1>
-      {
-        user &&
-        <div className='user-table'>
+      {user && (
+        <div className="user-table">
           <table>
             <tbody>
               <tr key={uuid()}>
-                <td>Name:</td>
-                <td align="left">{firstName} {lastName}</td>
+                <td>
+                  <strong>Name:</strong>
+                </td>
+                <td align="left">
+                  {firstName} {lastName}
+                </td>
               </tr>
               <tr key={uuid()}>
-                <td>Email:</td>
+                <td>
+                  <strong>Email:</strong>
+                </td>
                 <td align="left">{email}</td>
               </tr>
               <tr key={uuid()}>
-                <td>Gender:</td>
-                <td align="left" className='capitalize'>{gender}</td>
+                <td>
+                  <strong>Gender:</strong>
+                </td>
+                <td align="left" className="capitalize">
+                  {gender}
+                </td>
               </tr>
               <tr key={uuid()}>
-                <td>Age:</td>
+                <td>
+                  <strong>Age:</strong>
+                </td>
                 <td align="left">{age}</td>
               </tr>
               <tr key={uuid()}>
-                <td>{weightUnit}:</td>
+                <td>
+                  <strong>{weightUnit}:</strong>
+                </td>
                 <td align="left">{userWeight}</td>
               </tr>
               <tr key={uuid()}>
-                <td>{heightUnit}:</td>
+                <td>
+                  <strong>{heightUnit}:</strong>
+                </td>
                 <td align="left">{userHeight}</td>
               </tr>
             </tbody>
           </table>
         </div>
-      }
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default User
+export default User;

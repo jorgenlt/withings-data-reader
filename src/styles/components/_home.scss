@@ -2,8 +2,9 @@
   position: relative;
   overflow-y: hidden;
   max-width: 800px;
+  height: 100%;
 
-  a, span {
+  span {
     cursor: pointer;
     color: $pink;
     text-decoration: none;
