@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import {
   updateHr,
   updateSpo2,
@@ -8,6 +9,7 @@ import {
   updateSleep,
   updateWeight,
 } from "./features/dataReader/dataReaderSlice";
+import { format, addDays } from "date-fns";
 import Spo2 from "./features/dataReader/Spo2";
 import HeartRate from "./features/dataReader/HeartRate";
 import Nav from "./components/Nav";
@@ -16,7 +18,6 @@ import User from "./features/dataReader/User";
 import Weight from "./features/dataReader/Weight";
 import Instructions from "./features/dataReader/Instructions";
 import Sleep from "./features/dataReader/Sleep";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const { rawSpo2AutoSpo2, rawHrHr, rawTrackerSleepState, sleep, weight } =
@@ -94,21 +95,25 @@ function App() {
       // Sort all entries into groups with one group per day
       // Skip header row (let i = 1)
       for (let i = 1; i < rawTrackerSleepState.length; i++) {
-        let item = rawTrackerSleepState[i];
+        const item = rawTrackerSleepState[i];
 
         // Extract year, month and day directly from the string
-        let [year, month, day] = item[0]
-          .substring(0, 10)
-          .split("-")
-          .map((x) => +x);
-        let date = new Date(Date.UTC(year, month - 1, day)).getTime(); // Months are 0-based
+        // const [year, month, day] = item[0]
+        //   .substring(0, 10)
+        //   .split("-")
+        //   .map((x) => Number(x));
+        // const date = new Date(Date.UTC(year, month - 1, day)).getTime(); // Months are 0-based
+
+        const start = new Date(item[0]).getTime();
+        const startHour = new Date(item[0]).getHours();
+        const date = startHour < 12 ? format(start, "MMMM d y") : format(addDays(start, 1), "MMMM d y");
 
         // Parse the duration and value arrays
-        let duration = JSON.parse(item[1]);
-        let values = JSON.parse(item[2]);
+        const duration = JSON.parse(item[1]);
+        const values = JSON.parse(item[2]);
 
-        // Try to find the item in newArray
-        let foundItem = data.find((newItem) => newItem.start === date);
+        // Try to find the item in data array
+        const foundItem = data.find((newItem) => newItem.date === date);
 
         if (foundItem) {
           // If the item exists, append the duration and values
@@ -117,10 +122,11 @@ function App() {
         } else {
           // Else, create a new item
           data.push({
-            start: date,
-            duration: duration,
-            values: values,
-            id: date,
+            date,
+            start,
+            duration,
+            values,
+            id: start,
           });
         }
       }
@@ -147,6 +153,8 @@ function App() {
       // Creating an array of objects
       const data = rawData.map((row) => {
         const start = new Date(row[0]).getTime();
+        const startHour = new Date(row[0]).getHours();
+        const date = startHour < 12 ? format(start, "MMMM d y") : format(addDays(start, 1), "MMMM d y");
         const end = new Date(row[1]).getTime();
         const light = Number(row[2]);
         const deep = Number(row[3]);
@@ -157,7 +165,7 @@ function App() {
         const hrMax = Number(row[13]);
 
         return {
-          id: start,
+          date,
           start,
           end,
           light,
@@ -167,6 +175,7 @@ function App() {
           avgHr,
           hrMin,
           hrMax,
+          id: start
         };
       });
 

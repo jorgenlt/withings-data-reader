@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ChartDateNav from "./ChartDateNav";
-import { filterByDate } from "../../common/utils/queryFilters";
+import { filterSleepByDate } from "../../common/utils/queryFilters";
 import { format } from "date-fns";
 import { formatSeconds, unixToHours } from "../../common/utils/dateFormat";
 import { updateFilterDate } from "./dataReaderSlice";
@@ -104,8 +104,8 @@ const Sleep = () => {
   useEffect(() => {
     if (sleepState && filterDate && sleep) {
       // Filter data by date
-      const filteredSleepStateData = filterByDate(sleepState, filterDate);
-      const filteredSleepData = filterByDate(sleep, filterDate);
+      const filteredSleepStateData = filterSleepByDate(sleepState, filterDate);
+      const filteredSleepData = filterSleepByDate(sleep, filterDate);
 
       if (filteredSleepData) {
         setFilteredSleep(filteredSleepData[0]);
@@ -247,11 +247,11 @@ const Sleep = () => {
                           <tr
                             key={record.id}
                             onClick={() =>
-                              handleDateChange(new Date(record.start))
+                              handleDateChange(new Date(record.date))
                             }
                             className="raw-data-tr"
                           >
-                            <td>{format(record.start, "MMMM d y")}</td>
+                            <td>{record.date}</td>
                             <td>{format(record.start, "HH:mm")}</td>
                             <td>{format(record.end, "HH:mm")}</td>
                             <td>
