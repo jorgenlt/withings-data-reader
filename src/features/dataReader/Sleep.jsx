@@ -128,17 +128,6 @@ const Sleep = () => {
     }
   }, [filterDate, sleepState, sleep]);
 
-  useEffect(() => {
-    if (filteredSleepState) {
-      // console.log('filteredSleepState:', filteredSleepState);
-      // console.log('sleepState', sleepState);
-    }
-
-    if (filteredSleep) {
-      // console.log("filteredSleep", filteredSleep);
-    }
-  }, [filteredSleepState, sleepState]);
-
   return (
     <div
       className="app-wrapper"
@@ -163,7 +152,9 @@ const Sleep = () => {
                   <p>
                     You got{" "}
                     <strong>
-                      {formatSeconds((filteredSleep.end - filteredSleep.start) / 1000)}
+                      {formatSeconds(
+                        (filteredSleep.end - filteredSleep.start) / 1000
+                      )}
                     </strong>{" "}
                     of sleep.{" "}
                     <strong>{formatSeconds(filteredSleep.deep)}</strong> of this

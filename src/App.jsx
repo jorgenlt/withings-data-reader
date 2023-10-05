@@ -17,7 +17,6 @@ import Weight from "./features/dataReader/Weight";
 import Instructions from "./features/dataReader/Instructions";
 import Sleep from "./features/dataReader/Sleep";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const { rawSpo2AutoSpo2, rawHrHr, rawTrackerSleepState, sleep, weight } =
@@ -43,7 +42,7 @@ function App() {
         return {
           start,
           value,
-          id: uuidv4(),
+          id: start,
         };
       });
 
@@ -75,7 +74,7 @@ function App() {
         return {
           start,
           value,
-          id: uuidv4(),
+          id: start,
         };
       });
 
@@ -92,8 +91,8 @@ function App() {
     if (rawTrackerSleepState) {
       const data = [];
 
-      // sort all entries into groups with one group per day
-      // skip header row (let i = 1)
+      // Sort all entries into groups with one group per day
+      // Skip header row (let i = 1)
       for (let i = 1; i < rawTrackerSleepState.length; i++) {
         let item = rawTrackerSleepState[i];
 
@@ -121,7 +120,7 @@ function App() {
             start: date,
             duration: duration,
             values: values,
-            id: uuidv4(),
+            id: date,
           });
         }
       }
@@ -158,7 +157,7 @@ function App() {
         const hrMax = Number(row[13]);
 
         return {
-          id: uuidv4(),
+          id: start,
           start,
           end,
           light,
@@ -194,7 +193,7 @@ function App() {
         const weight = Number(row[1]);
 
         return {
-          id: uuidv4(),
+          id: date,
           date,
           weight,
         };
