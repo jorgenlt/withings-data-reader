@@ -5,6 +5,7 @@ import { filterSleepByDate } from "../../common/utils/queryFilters";
 import { format } from "date-fns";
 import { formatSeconds, unixToHours } from "../../common/utils/dateFormat";
 import { updateFilterDate } from "./dataReaderSlice";
+import { prepareSleepData, sleepStateToText } from "../../common/utils/sleepUtils";
 import {
   AreaChart,
   Area,
@@ -13,6 +14,24 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
+
+const CustomSleepTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    const { duration, sleepState, start, end } = payload[0].payload;
+
+    return (
+      <div className="custom-tooltip">
+        <h3>{sleepStateToText(sleepState)}</h3>
+        <p>
+          From {unixToHours(start)} to {unixToHours(end)}
+        </p>
+        <p>{duration / 60} minutes</p>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 const Sleep = () => {
   const [filteredSleepState, setFilteredSleepState] = useState(null);
@@ -27,74 +46,7 @@ const Sleep = () => {
   // Initializing hooks
   const dispatch = useDispatch();
 
-  const prepareData = (durations, filteredSleepStateData, prevTime) => {
-    let data = [];
-
-    durations.forEach((duration, i) => {
-      // Convert duration to milliseconds
-      const durationInMilliseconds = duration * 1000;
-      const start = prevTime;
-      const end = prevTime + durationInMilliseconds;
-
-      let value;
-      // Assign values based on filteredSleepStateData
-      switch (filteredSleepStateData[0].values[i]) {
-        case 2:
-          value = 1;
-          break;
-        case 1:
-          value = 2;
-          break;
-        default:
-          value = 3;
-      }
-
-      // Push data into array
-      data.push({
-        start,
-        end,
-        duration,
-        sleepState: value,
-      });
-
-      prevTime += durationInMilliseconds;
-    });
-
-    return data;
-  };
-
-  const sleepStateToText = (value) => {
-    switch (value) {
-      case 3:
-        return "Awake";
-      case 2:
-        return "Light sleep";
-      case 1:
-        return "Deep sleep";
-      default:
-        return "";
-    }
-  };
-
   const formatTickY = (value) => sleepStateToText(value);
-
-  const CustomSleepTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      const { duration, sleepState, start, end } = payload[0].payload;
-
-      return (
-        <div className="custom-tooltip">
-          <h3>{sleepStateToText(sleepState)}</h3>
-          <p>
-            From {unixToHours(start)} to {unixToHours(end)}
-          </p>
-          <p>{duration / 60} minutes</p>
-        </div>
-      );
-    }
-
-    return null;
-  };
 
   const handleDateChange = (date) => {
     dispatch(updateFilterDate(new Date(date)));
@@ -103,26 +55,20 @@ const Sleep = () => {
   // Update chart when date changes or when sleepState is populated
   useEffect(() => {
     if (sleepState && filterDate && sleep) {
-      // Filter data by date
+      // Filter data by filterDate
       const filteredSleepStateData = filterSleepByDate(sleepState, filterDate);
       const filteredSleepData = filterSleepByDate(sleep, filterDate);
 
-      if (filteredSleepData) {
-        setFilteredSleep(filteredSleepData[0]);
-      }
+      setFilteredSleep(filteredSleepData[0]);
 
-      let sleepStart = filteredSleepData[0]
-        ? filteredSleepData[0].start
-        : 1693174080000;
-
-      let prevTime = sleepStart;
+      const sleepStart = filteredSleepData[0]?.start;
 
       // Loop durations
       const durations = filteredSleepStateData[0]?.duration;
 
       if (durations) {
         setFilteredSleepState(
-          prepareData(durations, filteredSleepStateData, prevTime)
+          prepareSleepData(durations, filteredSleepStateData, sleepStart)
         );
       }
     }
