@@ -131,12 +131,6 @@ function App() {
         }
       }
 
-      // Sort by date
-      // const sortedData = data.sort((a, b) => new Date(a.start) - new Date(b.start))
-      // console.log('data:', data);
-      // console.log('sortedData', sortedData);
-      // Updating hr in state
-
       dispatch(updateSleepState(data));
     }
   }, [rawTrackerSleepState]);

@@ -61,7 +61,7 @@ const Spo2 = () => {
       style={navIsOpen ? { marginLeft: "320px" } : { marginLeft: "60px" }}
     >
       <h1>
-        Blood Oxygen Saturation (SpO<sub>2</sub>)
+        Sleep Blood Oxygen Saturation (SpO<sub>2</sub>)
       </h1>
       {filterDate && (
         <>
@@ -102,6 +102,7 @@ const Spo2 = () => {
                 angle={0}
                 padding={{ left: 0 }}
                 stroke="#787E91"
+                tick={{ fill: "snow" }}
               />
               <YAxis
                 unit={"%"}
@@ -110,6 +111,7 @@ const Spo2 = () => {
                 scale={"log"}
                 tickMargin={10}
                 stroke="#787E91"
+                tick={{ fill: "snow" }}
               />
               <Tooltip content={<CustomSpo2Tooltip />} />
             </LineChart>

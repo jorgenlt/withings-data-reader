@@ -12,6 +12,7 @@ const Home = () => {
   const handleDemoFiles = () => {
     dispatch(setDemoFiles());
     alert("Demo files loaded.");
+    navigate("/user");
   };
 
   return (
@@ -33,10 +34,10 @@ const Home = () => {
         </p>
         <p>The application is tested with data from Withings Scanwatch.</p>
         <p>
-          For feedback, requests for new features or to report a bug send an{" "}
+          For feedback, requests, or to report a bug send an{" "}
           <a href="mailto:contact@jorgenlt.no">email</a>.
         </p>
-        <div className="smartwatch">
+        {/* <div className="smartwatch">
           <img src="/smartwatch2.png" alt="" width={300} />
           <a
             className="smartwatch--credit"
@@ -45,7 +46,7 @@ const Home = () => {
           >
             Activity log icons created by rukanicon - Flaticon
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ export const prepareSleepData = (
 ) => {
   let data = [];
 
+  // Loop durations
   durations.forEach((duration, i) => {
     // Convert duration to milliseconds
     const durationInMilliseconds = duration * 1000;

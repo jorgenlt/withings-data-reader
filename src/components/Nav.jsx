@@ -153,6 +153,17 @@ const Nav = () => {
               </li>
               <li
                 className={`nav--element ${
+                  location.pathname === "/sleep" ? "nav--element-chosen" : ""
+                }`}
+                onClick={() => navigate("/sleep")}
+              >
+                <span className="nav--icon">
+                  <GiNightSleep />
+                </span>
+                <span className="nav--icon-text">Sleep</span>
+              </li>
+              <li
+                className={`nav--element ${
                   location.pathname === "/spo2" ? "nav--element-chosen" : ""
                 }`}
                 onClick={() => navigate("/spo2")}
@@ -160,7 +171,7 @@ const Nav = () => {
                 <span className="nav--icon">
                   <SiOxygen />
                 </span>
-                <span className="nav--icon-text">Blood Oxygen Saturation</span>
+                <span className="nav--icon-text">Sleep SpO<sub>2</sub></span>
               </li>
               <li
                 className={`nav--element ${
@@ -174,17 +185,6 @@ const Nav = () => {
                   <HiHeart />
                 </span>
                 <span className="nav--icon-text">Heart Rate</span>
-              </li>
-              <li
-                className={`nav--element ${
-                  location.pathname === "/sleep" ? "nav--element-chosen" : ""
-                }`}
-                onClick={() => navigate("/sleep")}
-              >
-                <span className="nav--icon">
-                  <GiNightSleep />
-                </span>
-                <span className="nav--icon-text">Sleep</span>
               </li>
               <li
                 className={`nav--element ${

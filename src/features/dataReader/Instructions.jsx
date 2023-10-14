@@ -44,11 +44,13 @@ const Instructions = () => {
           </div>
         </div>
 
-        <h2>2. Download the zipped folder from Withings to your computer. Unzip.</h2>
+        <h2>2. Check your email.</h2>
 
-        <h2>3. Choose Upload in the navigation menu and navigate to the unzipped folder.</h2>
+        <h2>3. Download the zipped folder from Withings to your computer. Unzip.</h2>
 
-        <h2>4. Select all files (Ctrl + A / Cmd + A). Open/upload all selected files.</h2>
+        <h2>4. Choose Upload in the navigation menu and navigate to the unzipped folder.</h2>
+
+        <h2>5. Select all files (Ctrl + A / Cmd + A). Open/upload all selected files.</h2>
       </div>
     </div>
   );

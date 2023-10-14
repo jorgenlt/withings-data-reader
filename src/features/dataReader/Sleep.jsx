@@ -46,6 +46,7 @@ const Sleep = () => {
   // Initializing hooks
   const dispatch = useDispatch();
 
+  // Format the tick for y-axis
   const formatTickY = (value) => sleepStateToText(value);
 
   const handleDateChange = (date) => {
@@ -63,7 +64,7 @@ const Sleep = () => {
 
       const sleepStart = filteredSleepData[0]?.start;
 
-      // Loop durations
+      // Prepare sleep data
       const durations = filteredSleepStateData[0]?.duration;
 
       if (durations) {

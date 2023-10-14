@@ -100,14 +100,15 @@ const HeartRate = () => {
                 angle={0}
                 padding={{ left: 0 }}
                 stroke="#787E91"
+                tick={{ fill: "snow" }}
               />
               <YAxis
                 unit={" bpm"}
                 domain={["dataMin", "dataMax"]}
                 interval="preserveEnd"
-                // scale={'log'}
                 tickMargin={10}
                 stroke="#787E91"
+                tick={{ fill: "snow" }}
               />
               <Tooltip content={<CustomHrTooltip />} />
             </LineChart>

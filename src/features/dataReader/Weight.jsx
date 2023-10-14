@@ -93,7 +93,7 @@ const Weight = () => {
               />
               <YAxis
                 stroke="#787E91"
-                unit={"kg"}
+                unit={" kg"}
                 domain={["auto", "auto"]}
                 interval="preserveStart"
                 tickMargin={10}
