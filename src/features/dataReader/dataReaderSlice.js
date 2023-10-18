@@ -20,10 +20,22 @@ export const uploadFilesThunk = createAsyncThunk(
     // Array to store parsed files
     const parsedFiles = [];
 
+    // Files to upload
+    const allowedFiles = [
+      "account.csv",
+      "height.csv",
+      "raw_hr_hr.csv",
+      "raw_spo2_auto_spo2.csv",
+      "raw_tracker_sleep-state.csv",
+      "sleep.csv",
+      "user.csv",
+      "weight.csv",
+    ];
+
     // Loop through files
     for (const file in files) {
       // Check file is valid
-      if (files[file].type === "text/csv") {
+      if (allowedFiles.includes(files[file].name)) {
         // Parse CSV with PapaParse
         await new Promise((resolve, reject) => {
           Papa.parse(files[file], {
