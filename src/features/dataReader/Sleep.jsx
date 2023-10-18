@@ -5,7 +5,10 @@ import { filterSleepByDate } from "../../common/utils/queryFilters";
 import { format } from "date-fns";
 import { formatSeconds, unixToHours } from "../../common/utils/dateFormat";
 import { updateFilterDate } from "./dataReaderSlice";
-import { prepareSleepData, sleepStateToText } from "../../common/utils/sleepUtils";
+import {
+  prepareSleepData,
+  sleepStateToText,
+} from "../../common/utils/sleepUtils";
 import {
   AreaChart,
   Area,
@@ -86,9 +89,7 @@ const Sleep = () => {
           <div className="chart-wrapper">
             <ChartDateNav />
             <div>
-              {filteredSleepState?.[0]?.start && filteredSleep?.start ? (
-                <p></p>
-              ) : (
+              {(!filteredSleepState?.[0]?.start || !filteredSleep?.start) && (
                 <p>No data on chosen date.</p>
               )}
             </div>

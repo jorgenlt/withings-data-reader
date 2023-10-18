@@ -20,7 +20,7 @@ import User from "./features/dataReader/User";
 import Weight from "./features/dataReader/Weight";
 import Instructions from "./features/dataReader/Instructions";
 import Sleep from "./features/dataReader/Sleep";
-import MobileOverlay from './components/MobileOverlay'
+import MobileOverlay from "./components/MobileOverlay";
 
 const App = () => {
   const { rawSpo2AutoSpo2, rawHrHr, rawTrackerSleepState, sleep, weight } =
@@ -64,7 +64,7 @@ const App = () => {
   // Populate hr state
   useEffect(() => {
     if (rawHrHr) {
-      // Process raw data
+      // Process raw dataedux DevTools serialization slow and consuming a lot of memor
       let rawData = [...rawHrHr];
 
       // Remove headersResponsiveContainer
@@ -100,13 +100,8 @@ const App = () => {
       for (let i = 1; i < rawTrackerSleepState.length; i++) {
         const item = rawTrackerSleepState[i];
 
-        // Extract year, month and day directly from the string
-        // const [year, month, day] = item[0]
-        //   .substring(0, 10)
-        //   .split("-")
-        //   .map((x) => Number(x));
-        // const date = new Date(Date.UTC(year, month - 1, day)).getTime(); // Months are 0-based
-
+        // Set start time and date
+        // If start is later than 12 (noon) add 1 day to date
         const start = new Date(item[0]).getTime();
         const startHour = new Date(item[0]).getHours();
         const date =
@@ -236,6 +231,6 @@ const App = () => {
       </>
     </Router>
   );
-}
+};
 
 export default App;

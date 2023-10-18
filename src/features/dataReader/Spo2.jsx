@@ -68,12 +68,14 @@ const Spo2 = () => {
           <div className="chart-wrapper">
             <ChartDateNav />
             <div>
-              {filteredSpo2?.[0]?.start ? (
-                <p>
-                  Min: {minMaxSpo2.min}, Max: {minMaxSpo2.max}
-                </p>
-              ) : (
-                <p>No data on chosen date.</p>
+              {!filteredSpo2?.[0]?.start && <p>No data on chosen date.</p>}
+            </div>
+            <div className="chart-stats">
+              {filteredSpo2?.[0]?.start && (
+                <>
+                  <p>Min: {minMaxSpo2.min} %</p>
+                  <p>Max: {minMaxSpo2.max} %</p>
+                </>
               )}
             </div>
             <LineChart

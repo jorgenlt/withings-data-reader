@@ -15,7 +15,7 @@ const Instructions = () => {
           button in the navigation menu.
         </p>
         <p>
-          No data is collected or uploaded to a server. All data is stored
+          No data is collected. All data is stored
           locally in your browser. Source code is available on{" "}
           <a
             href="https://github.com/jorgenlt/withings-data-reader"

@@ -66,12 +66,14 @@ const HeartRate = () => {
           <div className="chart-wrapper">
             <ChartDateNav />
             <div>
-              {filteredHr?.[0]?.start ? (
-                <p>
-                  Min: {minMaxHr.min}, Max: {minMaxHr.max}
-                </p>
-              ) : (
-                <p>No data on chosen date.</p>
+              {!filteredHr?.[0]?.start && <p>No data on chosen date.</p>}
+            </div>
+            <div className="chart-stats">
+              {filteredHr?.[0]?.start && (
+                <>
+                  <p>Min: {minMaxHr.min} bpm</p>
+                  <p>Max: {minMaxHr.max} bpm</p>
+                </>
               )}
             </div>
             <LineChart

@@ -32,21 +32,22 @@ const Home = () => {
           <span onClick={() => navigate("/instructions")}>instructions</span>{" "}
           for help.
         </p>
-        <p>The application is tested with data from Withings Scanwatch.</p>
         <p>
-          For feedback, requests, or to report a bug send an{" "}
+          The application is tested with data from Withings Scanwatch. For
+          feedback, requests, or to report a bug send an{" "}
           <a href="mailto:contact@jorgenlt.no">email</a>.
         </p>
-        {/* <div className="smartwatch">
-          <img src="/smartwatch2.png" alt="" width={300} />
+        <p>
+          You are more than welcome to contribute to the project on{" "}
           <a
-            className="smartwatch--credit"
-            href="https://www.flaticon.com/free-icons/activity-log"
-            title="activity log icons"
+            href="https://github.com/jorgenlt/withings-data-reader"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            Activity log icons created by rukanicon - Flaticon
-          </a>
-        </div> */}
+            GitHub
+          </a>{" "}
+          by sending a pull request.
+        </p>
       </div>
     </div>
   );
