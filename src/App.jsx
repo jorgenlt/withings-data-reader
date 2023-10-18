@@ -10,6 +10,8 @@ import {
   updateWeight,
 } from "./features/dataReader/dataReaderSlice";
 import { format, addDays } from "date-fns";
+import { isMobile } from "react-device-detect";
+
 import Spo2 from "./features/dataReader/Spo2";
 import HeartRate from "./features/dataReader/HeartRate";
 import Nav from "./components/Nav";
@@ -18,8 +20,9 @@ import User from "./features/dataReader/User";
 import Weight from "./features/dataReader/Weight";
 import Instructions from "./features/dataReader/Instructions";
 import Sleep from "./features/dataReader/Sleep";
+import MobileOverlay from './components/MobileOverlay'
 
-function App() {
+const App = () => {
   const { rawSpo2AutoSpo2, rawHrHr, rawTrackerSleepState, sleep, weight } =
     useSelector((state) => state.dataReader.files);
   // console.log(rawTrackerSleepState);
@@ -106,7 +109,10 @@ function App() {
 
         const start = new Date(item[0]).getTime();
         const startHour = new Date(item[0]).getHours();
-        const date = startHour < 12 ? format(start, "MMMM d y") : format(addDays(start, 1), "MMMM d y");
+        const date =
+          startHour < 12
+            ? format(start, "MMMM d y")
+            : format(addDays(start, 1), "MMMM d y");
 
         // Parse the duration and value arrays
         const duration = JSON.parse(item[1]);
@@ -148,7 +154,10 @@ function App() {
       const data = rawData.map((row) => {
         const start = new Date(row[0]).getTime();
         const startHour = new Date(row[0]).getHours();
-        const date = startHour < 12 ? format(start, "MMMM d y") : format(addDays(start, 1), "MMMM d y");
+        const date =
+          startHour < 12
+            ? format(start, "MMMM d y")
+            : format(addDays(start, 1), "MMMM d y");
         const end = new Date(row[1]).getTime();
         const light = Number(row[2]);
         const deep = Number(row[3]);
@@ -169,7 +178,7 @@ function App() {
           avgHr,
           hrMin,
           hrMax,
-          id: start
+          id: start,
         };
       });
 
@@ -223,6 +232,7 @@ function App() {
           <Route path="/instructions" element={<Instructions />} />
           <Route path="/sleep" element={<Sleep />} />
         </Routes>
+        {isMobile && <MobileOverlay />}
       </>
     </Router>
   );
