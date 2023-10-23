@@ -16,24 +16,13 @@
   }
 }
 
-.smartwatch {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
-  gap: 10px;
-  position: absolute;
-  bottom: 40px;
-  right: 0px;
-}
+.scanwatch-face {
+  margin-top: 100px;
+  display: grid;
+  place-items: center;
 
-.smartwatch--credit {
-  color: $pink;
-  font-size: 10px;
+  img {
+    width: 50%;
+    opacity: 0.25;
+  }
 }
-
-.logo-withings {
-  width: 200px;
-}
-

@@ -38,7 +38,16 @@ const Home = () => {
           <a href="mailto:contact@jorgenlt.no">email</a>.
         </p>
         <p>
-          You are more than welcome to contribute to the project on{" "}
+          This application was developed for personal reasons to get a more
+          detailed view on the data collected by the{" "}
+          <a
+            href="https://www.withings.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Withings
+          </a>{" "}
+          Scanwatch. You are welcome to contribute to the project on{" "}
           <a
             href="https://github.com/jorgenlt/withings-data-reader"
             target="_blank"
@@ -48,6 +57,9 @@ const Home = () => {
           </a>{" "}
           by sending a pull request.
         </p>
+        <div className="scanwatch-face">
+          <img src="scanwatch-face.png" alt="" />
+        </div>
       </div>
     </div>
   );
